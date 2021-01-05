@@ -150,6 +150,7 @@ const HomeWall = ({ problems, holds, createProblem, updateHolds }) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
+        <div className={classes.toolbar} />
         {page === 'list' && <ProblemList problems={problems} />}
         {page === 'create' && <ProblemEditor allHolds={holds} createProblem={createProblem} />}
       </main>
@@ -177,9 +178,9 @@ class HomeWallContainer extends React.PureComponent {
     });
   }
 
-  createProblem(holds) {
+  createProblem(problem) {
     this.setState({
-      problems: [createProblem(holds), ...this.state.problems],
+      problems: [createProblem(problem), ...this.state.problems],
     });
   }
 

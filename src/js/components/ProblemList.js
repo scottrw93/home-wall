@@ -33,10 +33,10 @@ const ProblemList = ({ problems }) => {
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">All problems</ListSubheader>
         </GridListTile>
-        {problems.map((problem) => (
+        {problems.map(({ holds, name, grade, author }) => (
           <GridListTile cols={2}>
-            <Board holds={problem} />
-            <GridListTileBar title={'My Problem 7A'} subtitle={<span>by: Scott Williams</span>} />
+            <Board holds={holds} />
+            <GridListTileBar title={`${name} ${grade}`} subtitle={<span>{`by: ${author}`}</span>} />
           </GridListTile>
         ))}
       </GridList>

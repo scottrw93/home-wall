@@ -1,19 +1,80 @@
 import React from 'react';
 import Board from './Board';
 
+import { makeStyles } from '@material-ui/core/styles';
+
 import { Button } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import { inside } from '../utils/RayCasting';
 
-const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => (
-  <div className="home-wall-creator">
-    <div className="home-wall">
-      <Board key={wallKey} onClick={addHold} holds={selectedHolds} />
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => {
+  const classes = useStyles();
+
+  const [grade, setGrade] = React.useState('6B');
+  const [name, setName] = React.useState(null);
+  const [author, setAuthor] = React.useState('Scott Williams');
+
+  return (
+    <div className="home-wall-creator">
+      <div className="home-wall">
+        <Board key={wallKey} onClick={addHold} holds={selectedHolds} />
+      </div>
+      <div>
+        <TextField
+          className={classes.formControl}
+          label="Problem Name"
+          variant="outlined"
+          onChange={({ target: { value } }) => setName(value)}
+        />
+        <TextField
+          className={classes.formControl}
+          label="Author"
+          defaultValue={author}
+          variant="outlined"
+          onChange={({ target: { value } }) => setAuthor(value)}
+        />
+
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel>Grade</InputLabel>
+          <Select value={grade} onChange={({ target: { value } }) => setGrade(value)} label="Grade">
+            <MenuItem value="None">None</MenuItem>
+            <MenuItem value="6B">6B</MenuItem>
+            <MenuItem value="7A">7A</MenuItem>
+            <MenuItem value="8A">8A</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <Button
+        className={classes.formControl}
+        variant="contained"
+        color="primary"
+        onClick={() =>
+          saveProblem({
+            name,
+            grade,
+            author,
+            holds: selectedHolds,
+            createdAt: Date.now(),
+          })
+        }
+        disabled={selectedHolds.length < 3 || !name || !author || !grade}
+      >
+        Save problem
+      </Button>
     </div>
-    <Button variant="contained" color="primary" onClick={saveProblem}>
-      Save problem
-    </Button>
-  </div>
-);
+  );
+};
 
 class ProblemEditorContainer extends React.PureComponent {
   constructor(props) {
@@ -43,10 +104,10 @@ class ProblemEditorContainer extends React.PureComponent {
     });
   }
 
-  saveProblem() {
+  saveProblem(problem) {
     const { createProblem } = this.props;
 
-    createProblem(this.state.selectedHolds);
+    createProblem(problem);
 
     this.setState({
       selectedHolds: [],
