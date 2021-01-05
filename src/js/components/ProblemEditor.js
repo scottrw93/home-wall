@@ -1,8 +1,21 @@
 import React from 'react';
 import Board from './Board';
+
+import { Button } from '@material-ui/core';
 import { inside } from '../utils/RayCasting';
 
-class ProblemEditor extends React.PureComponent {
+const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => (
+  <div className="home-wall-creator">
+    <div className="home-wall">
+      <Board key={wallKey} onClick={addHold} holds={selectedHolds} />
+    </div>
+    <Button variant="contained" color="primary" onClick={saveProblem}>
+      Save problem
+    </Button>
+  </div>
+);
+
+class ProblemEditorContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -11,11 +24,11 @@ class ProblemEditor extends React.PureComponent {
       wallKey: 0,
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.addHold = this.addHold.bind(this);
     this.saveProblem = this.saveProblem.bind(this);
   }
 
-  handleClick({ x, y }) {
+  addHold({ x, y }) {
     const { allHolds } = this.props;
     const { selectedHolds } = this.state;
 
@@ -45,16 +58,14 @@ class ProblemEditor extends React.PureComponent {
     const { selectedHolds, wallKey } = this.state;
 
     return (
-      <div className="home-wall-creator">
-        <div className="home-wall">
-          <Board key={wallKey} onClick={this.handleClick} holds={selectedHolds} />
-        </div>
-        <button onClick={this.saveProblem}>Save problem</button>
-      </div>
+      <ProblemEditor
+        selectedHolds={selectedHolds}
+        wallKey={wallKey}
+        addHold={this.addHold}
+        saveProblem={this.saveProblem}
+      />
     );
   }
 }
 
-export default ProblemEditor;
-
-ProblemEditor.propTypes = {};
+export default ProblemEditorContainer;

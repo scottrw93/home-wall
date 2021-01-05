@@ -1,7 +1,17 @@
 import React from 'react';
 import Board from './Board';
 
-class BoardEditor extends React.PureComponent {
+const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => (
+  <div className="home-wall-creator">
+    <div className="home-wall">
+      <Board onClick={handleClick} holds={holds} />
+    </div>
+    <button onClick={createHold}>Create hold</button>
+    <button onClick={saveBoard}>Save board</button>
+  </div>
+);
+
+class BoardEditorContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -11,7 +21,7 @@ class BoardEditor extends React.PureComponent {
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.saveHold = this.saveHold.bind(this);
+    this.createHold = this.createHold.bind(this);
   }
 
   handleClick({ x, y }) {
@@ -20,7 +30,7 @@ class BoardEditor extends React.PureComponent {
     });
   }
 
-  saveHold() {
+  createHold() {
     const { points } = this.state;
 
     if (points.length < 3) {
@@ -37,17 +47,14 @@ class BoardEditor extends React.PureComponent {
     const { updateHolds } = this.props;
 
     return (
-      <div className="home-wall-creator">
-        <div className="home-wall">
-          <Board onClick={this.handleClick} holds={this.state.holds} />
-        </div>
-        <button onClick={this.saveHold}>Create hold</button>
-        <button onClick={() => updateHolds(this.state.holds)}>Save wall</button>
-      </div>
+      <BoardEditor
+        holds={this.state.holds}
+        handleClick={this.handleClick}
+        createHold={this.createHold}
+        saveBoard={() => updateHolds(this.state.holds)}
+      />
     );
   }
 }
 
-export default BoardEditor;
-
-BoardEditor.propTypes = {};
+export default BoardEditorContainer;
