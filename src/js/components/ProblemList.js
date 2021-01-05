@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
 const ProblemList = ({ problems }) => {
   const classes = useStyles();
 
+  if (problems.length === 0) {
+    return <div className={classes.root}>No problems created yet</div>;
+  }
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={578} className={classes.gridList}>
@@ -34,7 +38,7 @@ const ProblemList = ({ problems }) => {
           <ListSubheader component="div">All problems</ListSubheader>
         </GridListTile>
         {problems.map(({ holds, name, grade, author }) => (
-          <GridListTile cols={2}>
+          <GridListTile key={name} cols={2}>
             <Board holds={holds} />
             <GridListTileBar title={`${name} ${grade}`} subtitle={<span>{`by: ${author}`}</span>} />
           </GridListTile>
