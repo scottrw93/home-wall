@@ -68,10 +68,12 @@ class HomeWall extends React.PureComponent {
         width="600"
         ref={this.canvasRef}
         onMouseDown={({ clientX, clientY }) => {
-          const canvas = this.canvasRef.current.getBoundingClientRect();
-          const x = clientX - canvas.left;
-          const y = clientY - canvas.top;
-          onClick({ x, y });
+          if (onClick) {
+            const canvas = this.canvasRef.current.getBoundingClientRect();
+            const x = clientX - canvas.left;
+            const y = clientY - canvas.top;
+            onClick({ x, y });
+          }
         }}
       />
     );

@@ -6,14 +6,13 @@ class ProblemCreator extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const allHolds = JSON.parse(localStorage.getItem('home-wall-1')) || [];
-
     this.state = {
-      allHolds,
+      allHolds: JSON.parse(localStorage.getItem('home-wall-1')) || [],
       selectedHolds: [],
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.saveProblem = this.saveProblem.bind(this);
   }
 
   handleClick({ x, y }) {
@@ -30,6 +29,19 @@ class ProblemCreator extends React.PureComponent {
     });
   }
 
+  saveProblem() {
+    const existingProblems = JSON.parse(localStorage.getItem('home-wall-problems')) || [];
+
+    localStorage.setItem(
+      'home-wall-problems',
+      JSON.stringify([...existingProblems, this.state.selectedHolds]),
+    );
+
+    this.setState({
+      selectedHolds: [],
+    });
+  }
+
   render() {
     const { selectedHolds } = this.state;
 
@@ -38,6 +50,7 @@ class ProblemCreator extends React.PureComponent {
         <div className="home-wall">
           <HomeWall onClick={this.handleClick} holds={selectedHolds} />
         </div>
+        <button onClick={this.saveProblem}>Save problem</button>
       </div>
     );
   }
