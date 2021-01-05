@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import wall from '../media/wall.jpg';
+import wall from '../../media/wall.jpg';
 
-class HomeWall extends React.PureComponent {
+class Board extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -16,6 +16,9 @@ class HomeWall extends React.PureComponent {
 
     wallImg.src = wall;
     wallImg.onload = () => {
+      if (!this.canvasRef.current) {
+        return;
+      }
       ctx.drawImage(
         wallImg,
         0,
@@ -80,8 +83,8 @@ class HomeWall extends React.PureComponent {
   }
 }
 
-export default HomeWall;
+export default Board;
 
-HomeWall.propTypes = {
+Board.propTypes = {
   onClick: PropTypes.func,
 };

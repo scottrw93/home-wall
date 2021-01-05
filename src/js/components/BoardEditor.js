@@ -1,22 +1,17 @@
 import React from 'react';
-import HomeWall from './HomeWall';
+import Board from './Board';
 
-class Creator extends React.PureComponent {
+class BoardEditor extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.storage = window.localStorage;
-
-    const holds = JSON.parse(localStorage.getItem('home-wall-1')) || [];
-
     this.state = {
       points: [],
-      holds,
+      holds: [],
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.saveHold = this.saveHold.bind(this);
-    this.saveWall = this.saveWall.bind(this);
   }
 
   handleClick({ x, y }) {
@@ -38,23 +33,21 @@ class Creator extends React.PureComponent {
     });
   }
 
-  saveWall() {
-    //localStorage.setItem('home-wall-1', JSON.stringify(this.state.holds));
-  }
-
   render() {
+    const { updateHolds } = this.props;
+
     return (
       <div className="home-wall-creator">
         <div className="home-wall">
-          <HomeWall onClick={this.handleClick} holds={this.state.holds} />
+          <Board onClick={this.handleClick} holds={this.state.holds} />
         </div>
         <button onClick={this.saveHold}>Create hold</button>
-        <button onClick={this.saveWall}>Save wall</button>
+        <button onClick={() => updateHolds(this.state.holds)}>Save wall</button>
       </div>
     );
   }
 }
 
-export default Creator;
+export default BoardEditor;
 
-Creator.propTypes = {};
+BoardEditor.propTypes = {};

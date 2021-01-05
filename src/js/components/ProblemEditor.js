@@ -1,14 +1,14 @@
 import React from 'react';
-import HomeWall from './HomeWall';
-import { inside } from './RayCasting';
+import Board from './Board';
+import { inside } from '../utils/RayCasting';
 
-class ProblemCreator extends React.PureComponent {
+class ProblemEditor extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      allHolds: JSON.parse(localStorage.getItem('home-wall-1')) || [],
       selectedHolds: [],
+      wallKey: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -16,9 +16,10 @@ class ProblemCreator extends React.PureComponent {
   }
 
   handleClick({ x, y }) {
+    const { allHolds } = this.props;
     const { selectedHolds } = this.state;
 
-    this.state.allHolds.forEach((hold) => {
+    allHolds.forEach((hold) => {
       if (inside({ x, y }, hold)) {
         if (selectedHolds.indexOf(hold) === -1) {
           this.setState({
@@ -30,25 +31,23 @@ class ProblemCreator extends React.PureComponent {
   }
 
   saveProblem() {
-    const existingProblems = JSON.parse(localStorage.getItem('home-wall-problems')) || [];
+    const { createProblem } = this.props;
 
-    localStorage.setItem(
-      'home-wall-problems',
-      JSON.stringify([...existingProblems, this.state.selectedHolds]),
-    );
+    createProblem(this.state.selectedHolds);
 
     this.setState({
       selectedHolds: [],
+      wallKey: this.state.wallKey + 1, //TODO: hack to force rerender, refactor
     });
   }
 
   render() {
-    const { selectedHolds } = this.state;
+    const { selectedHolds, wallKey } = this.state;
 
     return (
       <div className="home-wall-creator">
         <div className="home-wall">
-          <HomeWall onClick={this.handleClick} holds={selectedHolds} />
+          <Board key={wallKey} onClick={this.handleClick} holds={selectedHolds} />
         </div>
         <button onClick={this.saveProblem}>Save problem</button>
       </div>
@@ -56,6 +55,6 @@ class ProblemCreator extends React.PureComponent {
   }
 }
 
-export default ProblemCreator;
+export default ProblemEditor;
 
-ProblemCreator.propTypes = {};
+ProblemEditor.propTypes = {};
