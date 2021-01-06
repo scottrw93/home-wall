@@ -3,7 +3,7 @@ import Board from './Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Button } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import { inside } from '../utils/RayCasting';
@@ -37,60 +37,60 @@ const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => {
   const disabled = selectedHolds.length < 3 || !name || !author || !grade;
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        <div className="home-wall">
+    <Box width="100%">
+      <div className={classes.root}>
+        <CssBaseline />
+        <Container maxWidth="sm">
           <Board key={wallKey} onClick={addHold} holds={selectedHolds} />
-        </div>
-        <div>
-          <TextField
-            className={classes.formControl}
-            label="Problem Name"
-            variant="outlined"
-            onChange={({ target: { value } }) => setName(value)}
-          />
-          <TextField
-            className={classes.formControl}
-            label="Author"
-            defaultValue={author}
-            variant="outlined"
-            onChange={({ target: { value } }) => setAuthor(value)}
-          />
+          <div>
+            <TextField
+              className={classes.formControl}
+              label="Problem Name"
+              variant="outlined"
+              onChange={({ target: { value } }) => setName(value)}
+            />
+            <TextField
+              className={classes.formControl}
+              label="Author"
+              defaultValue={author}
+              variant="outlined"
+              onChange={({ target: { value } }) => setAuthor(value)}
+            />
 
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel>Grade</InputLabel>
-            <Select
-              value={grade}
-              onChange={({ target: { value } }) => setGrade(value)}
-              label="Grade"
-            >
-              <MenuItem value="None">None</MenuItem>
-              <MenuItem value="6B">6B</MenuItem>
-              <MenuItem value="7A">7A</MenuItem>
-              <MenuItem value="8A">8A</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <Button
-          className={classes.formControl}
-          variant="contained"
-          color="primary"
-          onClick={() =>
-            saveProblem({
-              name,
-              grade,
-              author,
-              holds: selectedHolds,
-              createdAt: Date.now(),
-            })
-          }
-          disabled={disabled}
-        >
-          Save problem
-        </Button>
-      </Container>
-    </div>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel>Grade</InputLabel>
+              <Select
+                value={grade}
+                onChange={({ target: { value } }) => setGrade(value)}
+                label="Grade"
+              >
+                <MenuItem value="None">None</MenuItem>
+                <MenuItem value="6B">6B</MenuItem>
+                <MenuItem value="7A">7A</MenuItem>
+                <MenuItem value="8A">8A</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <Button
+            className={classes.formControl}
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              saveProblem({
+                name,
+                grade,
+                author,
+                holds: selectedHolds,
+                createdAt: Date.now(),
+              })
+            }
+            disabled={disabled}
+          >
+            Save problem
+          </Button>
+        </Container>
+      </div>
+    </Box>
   );
 };
 
@@ -111,6 +111,7 @@ class ProblemEditorContainer extends React.PureComponent {
     const { allHolds } = this.props;
     const { selectedHolds } = this.state;
 
+    console.log({ x, y });
     allHolds.forEach((hold) => {
       if (inside({ x, y }, hold)) {
         if (selectedHolds.indexOf(hold) === -1) {

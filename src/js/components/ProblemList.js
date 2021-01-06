@@ -19,10 +19,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
-  gridList: {
-    width: 600,
-    height: 900,
-  },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
@@ -47,10 +43,7 @@ const ProblemList = ({ problems }) => {
       <CssBaseline />
       <Container maxWidth="sm">
         {problems.map(({ holds, name, grade, author }) => (
-          <GridListTile key={name} cols={2}>
-            <Board holds={holds} />
-            <GridListTileBar title={`${name} ${grade}`} subtitle={<span>{`by: ${author}`}</span>} />
-          </GridListTile>
+          <Board holds={holds} />
         ))}
       </Container>
     </div>
