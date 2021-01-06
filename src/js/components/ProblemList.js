@@ -2,10 +2,6 @@ import React from 'react';
 import Board from './Board';
 
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -19,8 +15,23 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
-  icon: {
-    color: 'rgba(255, 255, 255, 0.54)',
+  card: {
+    position: 'relative',
+    marginBottom: '50px',
+    display: 'inline-block',
+    backgroundColor: 'black',
+  },
+  overlay: {
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    width: '100%',
+    color: 'white',
+    backgroundColor: 'black',
+    opacity: 0.6,
+  },
+  description: {
+    padding: '10px 10px 10px 10px',
   },
 }));
 
@@ -43,7 +54,15 @@ const ProblemList = ({ problems }) => {
       <CssBaseline />
       <Container maxWidth="sm">
         {problems.map(({ holds, name, grade, author }) => (
-          <Board holds={holds} />
+          <div className={classes.card}>
+            <Board holds={holds} />
+            <div className={classes.overlay}>
+              <div className={classes.description}>
+                <Typography variant="h5">{`${name} ${grade}`}</Typography>
+                <Typography variant="p">{`by: ${author}`}</Typography>
+              </div>
+            </div>
+          </div>
         ))}
       </Container>
     </div>
