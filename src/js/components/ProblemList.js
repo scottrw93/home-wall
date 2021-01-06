@@ -7,6 +7,10 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -28,22 +32,27 @@ const ProblemList = ({ problems }) => {
   const classes = useStyles();
 
   if (problems.length === 0) {
-    return <div className={classes.root}>No problems created yet</div>;
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <Container maxWidth="sm">
+          <div className={classes.root}>No problems created yet</div>
+        </Container>
+      </div>
+    );
   }
 
   return (
     <div className={classes.root}>
-      <GridList cellHeight={578} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">All problems</ListSubheader>
-        </GridListTile>
+      <CssBaseline />
+      <Container maxWidth="sm">
         {problems.map(({ holds, name, grade, author }) => (
           <GridListTile key={name} cols={2}>
             <Board holds={holds} />
             <GridListTileBar title={`${name} ${grade}`} subtitle={<span>{`by: ${author}`}</span>} />
           </GridListTile>
         ))}
-      </GridList>
+      </Container>
     </div>
   );
 };

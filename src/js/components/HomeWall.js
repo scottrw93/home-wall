@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SideBar = ({ setPage }) => {
+const SideBar = ({ page, setPage }) => {
   const classes = useStyles();
 
   return (
@@ -62,13 +62,13 @@ const SideBar = ({ setPage }) => {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button onClick={() => setPage('create')}>
+        <ListItem button onClick={() => setPage('create')} selected={page === 'create'}>
           <ListItemIcon>
             <CreateIcon />
           </ListItemIcon>
           <ListItemText primary={'Create problem'} />
         </ListItem>
-        <ListItem button onClick={() => setPage('list')}>
+        <ListItem button onClick={() => setPage('list')} selected={page === 'list'}>
           <ListItemIcon>
             <ListIcon />
           </ListItemIcon>
@@ -134,7 +134,12 @@ const HomeWall = ({ problems, holds, createProblem, updateHolds }) => {
               keepMounted: true,
             }}
           >
-            <SideBar setPage={setPage} />
+            <SideBar
+              setPage={(updatedPage) => {
+                setPage(updatedPage);
+                setMobileOpen(false);
+              }}
+            />
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -145,7 +150,7 @@ const HomeWall = ({ problems, holds, createProblem, updateHolds }) => {
             variant="permanent"
             open
           >
-            <SideBar setPage={setPage} />
+            <SideBar page={page} setPage={setPage} />
           </Drawer>
         </Hidden>
       </nav>
