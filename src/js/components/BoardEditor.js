@@ -34,7 +34,7 @@ const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => {
       <CssBaseline />
       <Container maxWidth="sm">
         <div className="home-wall">
-          <Board onClick={handleClick} holds={holds} />
+          <Board dotOnClick onClick={handleClick} holds={holds} />
         </div>
         <Button
           className={classes.formControl}

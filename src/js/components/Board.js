@@ -9,18 +9,20 @@ const SCREEN_FACTOR = window.matchMedia
     : 1
   : 1;
 
-const pointAt = (corrodinate, factor) => (corrodinate / factor) * window.devicePixelRatio;
+const pointAt = (corrodinate) => (corrodinate / SCREEN_FACTOR) * window.devicePixelRatio;
 
-const draw = (holds, context, factor) => {
+const drawDot = (x, y, context) => context.strokeRect(pointAt(x), pointAt(y), 1, 1);
+
+const drawHolds = (holds, context) => {
   holds.forEach((points) => {
     context.beginPath();
 
     const { x: x0, y: y0 } = points[0];
 
-    context.moveTo(pointAt(x0, factor), pointAt(y0, factor));
-    
-    points.forEach(({ x, y }) => context.lineTo(pointAt(x, factor), pointAt(y, factor)));
-    context.lineTo(pointAt(x0, factor), pointAt(y0, factor));
+    context.moveTo(pointAt(x0), pointAt(y0));
+
+    points.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
+    context.lineTo(pointAt(x0), pointAt(y0));
 
     context.stroke();
     context.closePath();
@@ -55,32 +57,33 @@ class Board extends React.PureComponent {
       context.lineWidth = 2;
       context.strokeStyle = '#FFFFFF';
 
-      draw(holds, context, SCREEN_FACTOR);
+      drawHolds(holds, context);
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.holds !== this.props.holds) {
-      draw(this.props.holds, this.canvasRef.current.getContext('2d'), SCREEN_FACTOR);
+      drawHolds(this.props.holds, this.canvasRef.current.getContext('2d'));
     }
   }
 
   render() {
-    const { onClick } = this.props;
+    const { onClick, dotOnClick = false } = this.props;
 
     return (
       <canvas
-        className="home-wall-canvas"
-        width={WIDTH / SCREEN_FACTOR}
         ref={this.canvasRef}
         onMouseDown={({ clientX, clientY }) => {
           if (onClick) {
+            const context = this.canvasRef.current.getContext('2d');
             const canvas = this.canvasRef.current.getBoundingClientRect();
 
             const x = clientX - canvas.left;
             const y = clientY - canvas.top;
 
-            console.log({ click: { x, y } });
+            if (dotOnClick) {
+              drawDot(x, y, context);
+            }
 
             onClick({ x: x * SCREEN_FACTOR, y: y * SCREEN_FACTOR });
           }
