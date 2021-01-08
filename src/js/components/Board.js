@@ -9,17 +9,21 @@ const SCREEN_FACTOR = window.matchMedia
     : 1
   : 1;
 
-const draw = (holds, ctx, factor) => {
-  holds.forEach((points) => {
-    ctx.beginPath();
-    ctx.moveTo(points[0].x / factor, points[0].y / factor);
-    for (let i = 1; i < points.length; i++) {
-      ctx.lineTo(points[i].x / factor, points[i].y / factor);
-    }
-    ctx.lineTo(points[0].x / factor, points[0].y / factor);
+const pointAt = (corrodinate, factor) => (corrodinate / factor) * window.devicePixelRatio;
 
-    ctx.stroke();
-    ctx.closePath();
+const draw = (holds, context, factor) => {
+  holds.forEach((points) => {
+    context.beginPath();
+
+    const { x: x0, y: y0 } = points[0];
+
+    context.moveTo(pointAt(x0, factor), pointAt(y0, factor));
+    
+    points.forEach(({ x, y }) => context.lineTo(pointAt(x, factor), pointAt(y, factor)));
+    context.lineTo(pointAt(x0, factor), pointAt(y0, factor));
+
+    context.stroke();
+    context.closePath();
   });
 };
 
@@ -31,40 +35,33 @@ class Board extends React.PureComponent {
   }
 
   componentDidMount() {
-    const ctx = this.canvasRef.current.getContext('2d');
+    const { holds } = this.props;
+    const context = this.canvasRef.current.getContext('2d');
     const wallImg = new Image();
 
     wallImg.src = wall;
 
     wallImg.onload = () => {
-      if (!this.canvasRef.current) {
-        return;
-      }
-      const { width, height } = wallImg;
-      this.canvasRef.current.height = height / (width / WIDTH) / SCREEN_FACTOR;
+      const height = wallImg.height / (wallImg.width / WIDTH) / SCREEN_FACTOR;
+      const width = WIDTH / SCREEN_FACTOR;
 
-      ctx.drawImage(
-        wallImg,
-        0,
-        0,
-        this.canvasRef.current.clientWidth,
-        this.canvasRef.current.clientHeight,
-      );
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = '#FFFFFF';
+      this.canvasRef.current.width = width * window.devicePixelRatio;
+      this.canvasRef.current.height = height * window.devicePixelRatio;
 
-      draw(this.props.holds, ctx, SCREEN_FACTOR);
-      this.setState({
-        loading: true,
-      });
+      this.canvasRef.current.style.width = `${width}px`;
+      this.canvasRef.current.style.height = `${height}px`;
+
+      context.drawImage(wallImg, 0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
+      context.lineWidth = 2;
+      context.strokeStyle = '#FFFFFF';
+
+      draw(holds, context, SCREEN_FACTOR);
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.holds !== this.props.holds) {
-      const ctx = this.canvasRef.current.getContext('2d');
-
-      draw(this.props.holds, ctx, SCREEN_FACTOR);
+      draw(this.props.holds, this.canvasRef.current.getContext('2d'), SCREEN_FACTOR);
     }
   }
 
@@ -82,6 +79,9 @@ class Board extends React.PureComponent {
 
             const x = clientX - canvas.left;
             const y = clientY - canvas.top;
+
+            console.log({ click: { x, y } });
+
             onClick({ x: x * SCREEN_FACTOR, y: y * SCREEN_FACTOR });
           }
         }}
