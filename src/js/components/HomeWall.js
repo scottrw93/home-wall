@@ -2,6 +2,7 @@ import React from 'react';
 import { fetchHolds, fetchProblems, upsertHolds, createProblem } from '../api/HomeWallApi';
 import ProblemEditor from './ProblemEditor';
 import ProblemList from './ProblemList';
+import BoardEditor from './BoardEditor';
 
 import CreateIcon from '@material-ui/icons/Create';
 import AppBar from '@material-ui/core/AppBar';
@@ -79,12 +80,12 @@ const SideBar = ({ page, setPage }) => {
   );
 };
 
-const TopBar = ({ handleDrawerToggle }) => {
+const TopBar = ({ fullWidth = false, handleDrawerToggle }) => {
   const classes = useStyles();
 
   return (
     <div>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={fullWidth ? null : classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -104,7 +105,7 @@ const TopBar = ({ handleDrawerToggle }) => {
   );
 };
 
-const HomeWall = ({ problems, holds, createProblem, updateHolds }) => {
+const HomeWall = ({ problems, holds, createProblem, loading, updateHolds }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -114,6 +115,19 @@ const HomeWall = ({ problems, holds, createProblem, updateHolds }) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  if (holds.length === 0) {
+    return (
+      <div className={classes.root}>
+        <CssBaseline />
+        <TopBar handleDrawerToggle={handleDrawerToggle} fullWidth />
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {!loading && <BoardEditor />}
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -168,6 +182,7 @@ class HomeWallContainer extends React.PureComponent {
     super(props);
 
     this.state = {
+      loading: true,
       holds: [],
       problems: [],
     };
@@ -181,6 +196,7 @@ class HomeWallContainer extends React.PureComponent {
       this.setState({
         problems,
         holds: fetchHolds(),
+        loading: false,
       });
     });
   }
@@ -194,9 +210,11 @@ class HomeWallContainer extends React.PureComponent {
   }
 
   updateHolds(holds) {
-    this.setState({
-      holds: upsertHolds(holds),
-    });
+    upsertHolds(holds).then((holds) =>
+      this.setState({
+        holds,
+      }),
+    );
   }
 
   render() {
@@ -206,6 +224,7 @@ class HomeWallContainer extends React.PureComponent {
         holds={this.state.holds}
         createProblem={this.createProblem}
         updateHolds={this.updateHolds}
+        loading={this.state.loading}
       />
     );
   }

@@ -1,15 +1,65 @@
 import React from 'react';
+
 import Board from './Board';
 
-const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => (
-  <div className="home-wall-creator">
-    <div className="home-wall">
-      <Board onClick={handleClick} holds={holds} />
+import { makeStyles } from '@material-ui/core/styles';
+
+import { Button } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
+import { inside } from '../utils/RayCasting';
+
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <div className="home-wall">
+          <Board onClick={handleClick} holds={holds} />
+        </div>
+        <Button
+          className={classes.formControl}
+          variant="contained"
+          color="secondary"
+          onClick={createHold}
+        >
+          Create hold
+        </Button>
+
+        <Button
+          className={classes.formControl}
+          variant="contained"
+          color="primary"
+          onClick={saveBoard}
+        >
+          Save board
+        </Button>
+      </Container>
     </div>
-    <button onClick={createHold}>Create hold</button>
-    <button onClick={saveBoard}>Save board</button>
-  </div>
-);
+  );
+};
 
 class BoardEditorContainer extends React.PureComponent {
   constructor(props) {
