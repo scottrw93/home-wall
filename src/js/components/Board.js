@@ -2,6 +2,7 @@ import React from 'react';
 
 import wall from '../../media/wall.jpg';
 
+const WIDTH = 600;
 const SCREEN_FACTOR = window.matchMedia
   ? window.matchMedia('screen and (max-width: 600px)').matches
     ? 2
@@ -34,10 +35,14 @@ class Board extends React.PureComponent {
     const wallImg = new Image();
 
     wallImg.src = wall;
+
     wallImg.onload = () => {
       if (!this.canvasRef.current) {
         return;
       }
+      const { width, height } = wallImg;
+      this.canvasRef.current.height = height / (width / WIDTH) / SCREEN_FACTOR;
+
       ctx.drawImage(
         wallImg,
         0,
@@ -49,6 +54,9 @@ class Board extends React.PureComponent {
       ctx.strokeStyle = '#FFFFFF';
 
       draw(this.props.holds, ctx, SCREEN_FACTOR);
+      this.setState({
+        loading: true,
+      });
     };
   }
 
@@ -66,8 +74,7 @@ class Board extends React.PureComponent {
     return (
       <canvas
         className="home-wall-canvas"
-        height={578 / SCREEN_FACTOR}
-        width={600 / SCREEN_FACTOR}
+        width={WIDTH / SCREEN_FACTOR}
         ref={this.canvasRef}
         onMouseDown={({ clientX, clientY }) => {
           if (onClick) {

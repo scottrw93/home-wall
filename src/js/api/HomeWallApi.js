@@ -742,7 +742,6 @@ export const fetchProblems = () => {
 };
 
 export const upsertHolds = (holds) => {
-  localStorage.setItem('home-wall-1', JSON.stringify(holds));
   return fetchHolds();
 };
 
