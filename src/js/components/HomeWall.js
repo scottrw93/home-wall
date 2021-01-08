@@ -123,7 +123,7 @@ const HomeWall = ({ problems, holds, createProblem, loading, updateHolds }) => {
         <TopBar handleDrawerToggle={handleDrawerToggle} fullWidth />
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {!loading && <BoardEditor />}
+          {!loading && <BoardEditor updateHolds={updateHolds} />}
         </main>
       </div>
     );
