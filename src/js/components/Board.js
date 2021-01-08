@@ -1,6 +1,6 @@
 import React from 'react';
 
-import wall from '../../media/wall.png';
+import wall from '../../media/wall.jpg';
 
 const WIDTH = 600;
 const SCREEN_FACTOR = window.matchMedia
