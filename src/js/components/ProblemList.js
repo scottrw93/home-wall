@@ -54,7 +54,7 @@ const ProblemList = ({ problems }) => {
       <CssBaseline />
       <Container maxWidth="sm">
         {problems.map(({ holds, name, grade, author }) => (
-          <div className={classes.card}>
+          <div key={name} className={classes.card}>
             <Board holds={holds} />
             <div className={classes.overlay}>
               <div className={classes.description}>

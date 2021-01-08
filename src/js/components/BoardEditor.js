@@ -5,9 +5,6 @@ import Board from './Board';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
-import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
-import { inside } from '../utils/RayCasting';
 
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
