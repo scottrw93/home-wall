@@ -5,7 +5,7 @@ import wall from '../../media/wall.jpg';
 const WIDTH = 600;
 const SCREEN_FACTOR = window.matchMedia
   ? window.matchMedia('screen and (max-width: 600px)').matches
-    ? 2
+    ? 2.1
     : 1
   : 1;
 
@@ -38,7 +38,8 @@ class Board extends React.PureComponent {
 
   componentDidMount() {
     const { holds } = this.props;
-    const context = this.canvasRef.current.getContext('2d');
+    const ref = this.canvasRef.current;
+    const context = ref.getContext('2d');
     const wallImg = new Image();
 
     wallImg.src = wall;
@@ -47,13 +48,13 @@ class Board extends React.PureComponent {
       const height = wallImg.height / (wallImg.width / WIDTH) / SCREEN_FACTOR;
       const width = WIDTH / SCREEN_FACTOR;
 
-      this.canvasRef.current.width = width * window.devicePixelRatio;
-      this.canvasRef.current.height = height * window.devicePixelRatio;
+      ref.width = width * window.devicePixelRatio;
+      ref.height = height * window.devicePixelRatio;
 
-      this.canvasRef.current.style.width = `${width}px`;
-      this.canvasRef.current.style.height = `${height}px`;
+      ref.style.width = `${width}px`;
+      ref.style.height = `${height}px`;
 
-      context.drawImage(wallImg, 0, 0, this.canvasRef.current.width, this.canvasRef.current.height);
+      context.drawImage(wallImg, 0, 0, ref.width, ref.height);
       context.lineWidth = 2;
       context.strokeStyle = '#FFFFFF';
 
@@ -75,8 +76,9 @@ class Board extends React.PureComponent {
         ref={this.canvasRef}
         onMouseDown={({ clientX, clientY }) => {
           if (onClick) {
-            const context = this.canvasRef.current.getContext('2d');
-            const canvas = this.canvasRef.current.getBoundingClientRect();
+            const ref = this.canvasRef.current;
+            const context = ref.getContext('2d');
+            const canvas = ref.getBoundingClientRect();
 
             const x = clientX - canvas.left;
             const y = clientY - canvas.top;
