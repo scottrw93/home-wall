@@ -1,3 +1,6 @@
+const HOMEWALL_API = 'https://europe-west3-homewall-301021.cloudfunctions.net/HomeWall';
+//const HOMEWALL_API = "http://localhost:8080";
+
 export const fetchHolds = () => {
   //return  JSON.parse(localStorage.getItem('home-wall-1')) || [];
   return [
@@ -725,7 +728,17 @@ export const fetchHolds = () => {
 };
 
 export const fetchProblems = () => {
-  return JSON.parse(localStorage.getItem('home-wall-problems')) || [];
+  return fetch(`${HOMEWALL_API}/problems`)
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        console.log(result);
+        return result;
+      },
+      (error) => {
+        console.log({ error });
+      },
+    );
 };
 
 export const upsertHolds = (holds) => {
@@ -733,7 +746,19 @@ export const upsertHolds = (holds) => {
   return fetchHolds();
 };
 
-export const createProblem = (holds) => {
-  localStorage.setItem('home-wall-problems', JSON.stringify([holds, ...fetchProblems()]));
-  return holds;
+export const createProblem = (problem) => {
+  return fetch(`${HOMEWALL_API}/problems`, {
+    method: 'POST',
+    body: JSON.stringify(problem),
+  })
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        console.log(result);
+        return result;
+      },
+      (error) => {
+        console.log({ error });
+      },
+    );
 };

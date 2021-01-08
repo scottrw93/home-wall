@@ -81,7 +81,6 @@ const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => {
                 grade,
                 author,
                 holds: selectedHolds,
-                createdAt: Date.now(),
               })
             }
             disabled={disabled}
@@ -111,7 +110,6 @@ class ProblemEditorContainer extends React.PureComponent {
     const { allHolds } = this.props;
     const { selectedHolds } = this.state;
 
-    console.log({ x, y });
     allHolds.forEach((hold) => {
       if (inside({ x, y }, hold)) {
         if (selectedHolds.indexOf(hold) === -1) {

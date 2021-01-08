@@ -177,16 +177,20 @@ class HomeWallContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.setState({
-      holds: fetchHolds(),
-      problems: fetchProblems(),
+    fetchProblems().then((problems) => {
+      this.setState({
+        problems,
+        holds: fetchHolds(),
+      });
     });
   }
 
   createProblem(problem) {
-    this.setState({
-      problems: [createProblem(problem), ...this.state.problems],
-    });
+    createProblem(problem).then((createdProblem) =>
+      this.setState({
+        problems: [createdProblem, ...this.state.problems],
+      }),
+    );
   }
 
   updateHolds(holds) {

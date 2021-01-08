@@ -72,7 +72,6 @@ class Board extends React.PureComponent {
         onMouseDown={({ clientX, clientY }) => {
           if (onClick) {
             const canvas = this.canvasRef.current.getBoundingClientRect();
-            console.log({ clientX, clientY, cl: canvas.left });
 
             const x = clientX - canvas.left;
             const y = clientY - canvas.top;

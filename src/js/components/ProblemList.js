@@ -59,7 +59,7 @@ const ProblemList = ({ problems }) => {
             <div className={classes.overlay}>
               <div className={classes.description}>
                 <Typography variant="h5">{`${name} ${grade}`}</Typography>
-                <Typography variant="p">{`by: ${author}`}</Typography>
+                <Typography variant="body1">{`by: ${author}`}</Typography>
               </div>
             </div>
           </div>
