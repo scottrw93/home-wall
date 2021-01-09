@@ -11,6 +11,8 @@ import { inside } from '../utils/RayCasting';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+import { sameHold } from '../utils/Holds';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => {
+const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
   const classes = useStyles();
 
   const [grade, setGrade] = React.useState('6B');
@@ -40,7 +42,7 @@ const ProblemEditor = ({ selectedHolds, wallKey, addHold, saveProblem }) => {
     <div className={classes.root}>
       <CssBaseline />
       <Container maxWidth="sm">
-        <Board key={wallKey} onClick={addHold} holds={selectedHolds} />
+        <Board onClick={clickHold} holds={selectedHolds} />
         <div>
           <TextField
             className={classes.formControl}
@@ -97,24 +99,24 @@ class ProblemEditorContainer extends React.PureComponent {
 
     this.state = {
       selectedHolds: [],
-      wallKey: 0,
     };
 
-    this.addHold = this.addHold.bind(this);
+    this.clickHold = this.clickHold.bind(this);
     this.saveProblem = this.saveProblem.bind(this);
   }
 
-  addHold({ x, y }) {
+  clickHold({ x, y }) {
     const { allHolds } = this.props;
     const { selectedHolds } = this.state;
 
     allHolds.forEach((hold) => {
       if (inside({ x, y }, hold)) {
-        if (selectedHolds.indexOf(hold) === -1) {
-          this.setState({
-            selectedHolds: [...selectedHolds, hold],
-          });
-        }
+        this.setState({
+          selectedHolds:
+            selectedHolds.indexOf(hold) === -1
+              ? [...selectedHolds, hold]
+              : selectedHolds.filter((toDelete) => !sameHold(toDelete, hold)),
+        });
       }
     });
   }
@@ -126,18 +128,16 @@ class ProblemEditorContainer extends React.PureComponent {
 
     this.setState({
       selectedHolds: [],
-      wallKey: this.state.wallKey + 1, //TODO: hack to force rerender, refactor
     });
   }
 
   render() {
-    const { selectedHolds, wallKey } = this.state;
+    const { selectedHolds } = this.state;
 
     return (
       <ProblemEditor
         selectedHolds={selectedHolds}
-        wallKey={wallKey}
-        addHold={this.addHold}
+        clickHold={this.clickHold}
         saveProblem={this.saveProblem}
       />
     );

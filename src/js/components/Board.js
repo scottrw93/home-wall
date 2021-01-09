@@ -1,6 +1,7 @@
 import React from 'react';
 
 import wall from '../../media/wall.jpg';
+import { containsHolds } from '../utils/Holds';
 
 const WIDTH = 600;
 const PIXEL_RATIO =
@@ -41,18 +42,26 @@ class Board extends React.PureComponent {
     super(props);
 
     this.canvasRef = React.createRef();
+
+    this.state = {
+      img: new Image(),
+    };
   }
 
   componentDidMount() {
+    const { img } = this.state;
     const { holds } = this.props;
     const ref = this.canvasRef.current;
     const context = ref.getContext('2d');
-    const wallImg = new Image();
 
-    wallImg.src = wall;
+    img.src = wall;
 
-    wallImg.onload = () => {
-      const height = Math.floor(wallImg.height / (wallImg.width / WIDTH) / SCALE);
+    this.setState({
+      img,
+    });
+
+    img.onload = () => {
+      const height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
       const width = Math.floor(WIDTH / SCALE);
 
       ref.width = width * PIXEL_RATIO;
@@ -61,7 +70,7 @@ class Board extends React.PureComponent {
       ref.style.width = `${width}px`;
       ref.style.height = `${height}px`;
 
-      context.drawImage(wallImg, 0, 0, ref.width, ref.height);
+      context.drawImage(img, 0, 0, ref.width, ref.height);
       context.lineWidth = 1 * PIXEL_RATIO;
       context.strokeStyle = '#FFFFFF';
 
@@ -70,8 +79,22 @@ class Board extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.holds !== this.props.holds) {
-      drawHolds(this.props.holds, this.canvasRef.current.getContext('2d'));
+    const { holds } = this.props;
+    const { holds: prevHolds } = prevProps;
+    const { img } = this.state;
+
+    if (prevHolds !== holds) {
+      const ref = this.canvasRef.current;
+      const context = ref.getContext('2d');
+
+      if (containsHolds(holds, prevHolds)) {
+        drawHolds(holds.slice(prevHolds.length), context);
+      } else {
+        const ref = this.canvasRef.current;
+        context.clearRect(0, 0, ref.width, ref.height);
+        context.drawImage(img, 0, 0, ref.width, ref.height);
+        drawHolds(holds, context);
+      }
     }
   }
 
