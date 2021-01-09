@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => {
+const BoardEditor = ({ holds, handleClick, saveBoard }) => {
   const classes = useStyles();
 
   return (
@@ -34,17 +34,8 @@ const BoardEditor = ({ holds, handleClick, createHold, saveBoard }) => {
       <CssBaseline />
       <Container maxWidth="sm">
         <div className="home-wall">
-          <Board dotOnClick onClick={handleClick} holds={holds} />
+          <Board onClick={handleClick} holds={holds} />
         </div>
-        <Button
-          className={classes.formControl}
-          variant="contained"
-          color="secondary"
-          onClick={createHold}
-        >
-          Create hold
-        </Button>
-
         <Button
           className={classes.formControl}
           variant="contained"
@@ -69,6 +60,24 @@ class BoardEditorContainer extends React.PureComponent {
 
     this.handleClick = this.handleClick.bind(this);
     this.createHold = this.createHold.bind(this);
+
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown({ metaKey, keyCode }) {
+    const { holds } = this.state;
+
+    if (metaKey && keyCode === 90 && holds.length > 0) {
+      this.setState({
+        holds: holds.slice(0, holds.length - 1),
+      });
+    } else if (keyCode === 13) {
+      this.createHold();
+    }
   }
 
   handleClick({ x, y }) {
@@ -97,7 +106,6 @@ class BoardEditorContainer extends React.PureComponent {
       <BoardEditor
         holds={this.state.holds}
         handleClick={this.handleClick}
-        createHold={this.createHold}
         saveBoard={() => updateHolds(this.state.holds)}
       />
     );

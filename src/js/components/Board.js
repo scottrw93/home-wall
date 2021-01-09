@@ -19,17 +19,15 @@ const SCALE = window.matchMedia
 
 const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
-const drawDot = (x, y, context) => context.strokeRect(pointAt(x), pointAt(y), 1, 1);
-
 const drawHolds = (holds, context) => {
-  holds.forEach((points) => {
+  holds.forEach((hold) => {
     context.beginPath();
 
-    const { x: x0, y: y0 } = points[0];
+    const { x: x0, y: y0 } = hold[0];
 
     context.moveTo(pointAt(x0), pointAt(y0));
 
-    points.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
+    hold.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
     context.lineTo(pointAt(x0), pointAt(y0));
 
     context.stroke();
@@ -51,6 +49,7 @@ class Board extends React.PureComponent {
   componentDidMount() {
     const { img } = this.state;
     const { holds } = this.props;
+
     const ref = this.canvasRef.current;
     const context = ref.getContext('2d');
 
@@ -90,7 +89,6 @@ class Board extends React.PureComponent {
       if (containsHolds(holds, prevHolds)) {
         drawHolds(holds.slice(prevHolds.length), context);
       } else {
-        const ref = this.canvasRef.current;
         context.clearRect(0, 0, ref.width, ref.height);
         context.drawImage(img, 0, 0, ref.width, ref.height);
         drawHolds(holds, context);
@@ -99,7 +97,7 @@ class Board extends React.PureComponent {
   }
 
   render() {
-    const { onClick, dotOnClick = false } = this.props;
+    const { onClick } = this.props;
 
     return (
       <canvas
@@ -107,15 +105,10 @@ class Board extends React.PureComponent {
         onMouseDown={({ clientX, clientY }) => {
           if (onClick) {
             const ref = this.canvasRef.current;
-            const context = ref.getContext('2d');
             const canvas = ref.getBoundingClientRect();
 
             const x = clientX - canvas.left;
             const y = clientY - canvas.top;
-
-            if (dotOnClick) {
-              drawDot(x, y, context);
-            }
 
             onClick({ x: x * SCALE, y: y * SCALE });
           }
