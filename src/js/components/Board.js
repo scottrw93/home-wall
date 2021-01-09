@@ -3,13 +3,20 @@ import React from 'react';
 import wall from '../../media/wall.jpg';
 
 const WIDTH = 600;
-const SCREEN_FACTOR = window.matchMedia
+const PIXEL_RATIO =
+  window.matchMedia && window.matchMedia('screen and (max-width: 900px)').matches
+    ? window.devicePixelRatio * 2
+    : window.devicePixelRatio;
+
+const SCALE = window.matchMedia
   ? window.matchMedia('screen and (max-width: 600px)').matches
     ? 2.1
+    : window.matchMedia('screen and (max-width: 900px)').matches
+    ? 1.5
     : 1
   : 1;
 
-const pointAt = (corrodinate) => (corrodinate / SCREEN_FACTOR) * window.devicePixelRatio;
+const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
 const drawDot = (x, y, context) => context.strokeRect(pointAt(x), pointAt(y), 1, 1);
 
@@ -45,17 +52,17 @@ class Board extends React.PureComponent {
     wallImg.src = wall;
 
     wallImg.onload = () => {
-      const height = wallImg.height / (wallImg.width / WIDTH) / SCREEN_FACTOR;
-      const width = WIDTH / SCREEN_FACTOR;
+      const height = Math.floor(wallImg.height / (wallImg.width / WIDTH) / SCALE);
+      const width = Math.floor(WIDTH / SCALE);
 
-      ref.width = width * window.devicePixelRatio;
-      ref.height = height * window.devicePixelRatio;
+      ref.width = width * PIXEL_RATIO;
+      ref.height = height * PIXEL_RATIO;
 
       ref.style.width = `${width}px`;
       ref.style.height = `${height}px`;
 
       context.drawImage(wallImg, 0, 0, ref.width, ref.height);
-      context.lineWidth = 2;
+      context.lineWidth = 1 * PIXEL_RATIO;
       context.strokeStyle = '#FFFFFF';
 
       drawHolds(holds, context);
@@ -87,7 +94,7 @@ class Board extends React.PureComponent {
               drawDot(x, y, context);
             }
 
-            onClick({ x: x * SCREEN_FACTOR, y: y * SCREEN_FACTOR });
+            onClick({ x: x * SCALE, y: y * SCALE });
           }
         }}
       />
