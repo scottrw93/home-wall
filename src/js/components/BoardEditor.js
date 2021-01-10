@@ -33,9 +33,7 @@ const BoardEditor = ({ holds, handleClick, saveBoard }) => {
     <div className={classes.root}>
       <CssBaseline />
       <Container maxWidth="sm">
-        <div className="home-wall">
-          <Board onClick={handleClick} holds={holds} />
-        </div>
+        <Board onClick={handleClick} holds={holds} />
         <Button
           className={classes.formControl}
           variant="contained"
@@ -60,6 +58,7 @@ class BoardEditorContainer extends React.PureComponent {
 
     this.handleClick = this.handleClick.bind(this);
     this.createHold = this.createHold.bind(this);
+    this.saveBoard = this.saveBoard.bind(this);
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
@@ -81,32 +80,39 @@ class BoardEditorContainer extends React.PureComponent {
   }
 
   handleClick({ x, y }) {
+    const { points } = this.state;
+
     this.setState({
-      points: [...this.state.points, { x, y }],
+      points: [...points, { x, y }],
     });
   }
 
   createHold() {
-    const { points } = this.state;
+    const { points, holds } = this.state;
 
     if (points.length < 3) {
       return;
     }
 
     this.setState({
-      holds: [...this.state.holds, points],
+      holds: [...holds, points],
       points: [],
     });
   }
 
-  render() {
+  saveBoard() {
     const { updateHolds } = this.props;
+    const { holds } = this.state;
 
+    updateHolds(holds);
+  }
+
+  render() {
     return (
       <BoardEditor
         holds={this.state.holds}
         handleClick={this.handleClick}
-        saveBoard={() => updateHolds(this.state.holds)}
+        saveBoard={this.saveBoard}
       />
     );
   }
