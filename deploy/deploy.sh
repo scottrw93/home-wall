@@ -2,7 +2,6 @@
 
 cd build
 
-ls /home/travis/build/scottrw93/home-wall/deploy
 GIT_SSH_COMMAND="ssh -i /home/travis/build/scottrw93/home-wall/deploy/travis" git clone git@github.com:scottrw93/scottrw93.github.io.git
 
 rm -rf scottrw93.github.io/*
