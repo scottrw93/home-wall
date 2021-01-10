@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     color: 'white',
     backgroundColor: 'black',
-    opacity: 0.6,
+    opacity: 0.61,
   },
   description: {
     padding: '10px 10px 10px 10px',
