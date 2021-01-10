@@ -4,6 +4,7 @@ node_js:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_e6cc0fb2b8da_key -iv $encrypted_e6cc0fb2b8da_iv -in deploy/travis.enc -out deploy/travis -d
+  - chmod 600 deploy/travis
 
 install:
   - yarn build
