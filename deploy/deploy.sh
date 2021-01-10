@@ -3,14 +3,14 @@
 cd build
 git clone -i ../private git@github.com:scottrw93/scottrw93.github.io.git
 
-rm -rf scottrw93.github.io.git/*
+rm -rf scottrw93.github.io/*
 cp -r `ls -A | grep -v "scottrw93.github.io"` scottrw93.github.io/
 
-cd scottrw93.github.io.git
+cd scottrw93.github.io
 
 git add .
 git commit -m update
 git push -i ../private origin master
 
 cd ..
-rm -rf scottrw93.github.io.git
+rm -rf scottrw93.github.io
