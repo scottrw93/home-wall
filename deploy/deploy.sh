@@ -10,7 +10,7 @@ cp -r `ls -A | grep -v "scottrw93.github.io"` scottrw93.github.io/
 cd scottrw93.github.io
 
 git add .
-git commit -m update
+git commit -m "Build $TRAVIS_BUILD_NUMBER"
 GIT_SSH_COMMAND="ssh -i /home/travis/build/scottrw93/home-wall/deploy/travis" git push origin master
 
 cd ..
