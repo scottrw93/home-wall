@@ -1,6 +1,10 @@
 #!/bin/bash
 
 cd build
+
+pwd
+ls ..
+ls
 GIT_SSH_COMMAND="ssh -i ../deploy/travis" git clone git@github.com:scottrw93/scottrw93.github.io.git
 
 rm -rf scottrw93.github.io/*
