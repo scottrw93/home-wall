@@ -10,7 +10,7 @@ cd scottrw93.github.io
 
 git add .
 git commit -m update
-git push -i ../private origin master
+git push -i ../deploy/travis origin master
 
 cd ..
 rm -rf scottrw93.github.io
