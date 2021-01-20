@@ -1,5 +1,11 @@
 import React from 'react';
-import { fetchHolds, fetchProblems, upsertHolds, createProblem } from '../api/HomeWallApi';
+import {
+  fetchHolds,
+  fetchProblems,
+  upsertHolds,
+  createProblem,
+  deleteProblem,
+} from '../api/HomeWallApi';
 import ProblemEditor from './ProblemEditor';
 import ProblemList from './ProblemList';
 import BoardEditor from './BoardEditor';
@@ -105,7 +111,7 @@ const TopBar = ({ fullWidth = false, handleDrawerToggle }) => {
   );
 };
 
-const HomeWall = ({ problems, holds, createProblem, loading, updateHolds }) => {
+const HomeWall = ({ problems, holds, createProblem, deleteProblem, loading, updateHolds }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -170,7 +176,7 @@ const HomeWall = ({ problems, holds, createProblem, loading, updateHolds }) => {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {page === 'list' && <ProblemList problems={problems} />}
+        {page === 'list' && <ProblemList problems={problems} deleteProblem={deleteProblem} />}
         {page === 'create' && <ProblemEditor allHolds={holds} createProblem={createProblem} />}
       </main>
     </div>
@@ -189,6 +195,7 @@ class HomeWallContainer extends React.PureComponent {
 
     this.updateHolds = this.updateHolds.bind(this);
     this.createProblem = this.createProblem.bind(this);
+    this.deleteProblem = this.deleteProblem.bind(this);
   }
 
   componentDidMount() {
@@ -211,6 +218,15 @@ class HomeWallContainer extends React.PureComponent {
     );
   }
 
+  deleteProblem(uuid) {
+    const { problems } = this.state;
+    deleteProblem(uuid).then(() =>
+      this.setState({
+        problems: problems.filter((p) => p.uuid !== uuid),
+      }),
+    );
+  }
+
   updateHolds(holds) {
     upsertHolds(holds).then((holds) =>
       this.setState({
@@ -225,6 +241,7 @@ class HomeWallContainer extends React.PureComponent {
         problems={this.state.problems}
         holds={this.state.holds}
         createProblem={this.createProblem}
+        deleteProblem={this.deleteProblem}
         updateHolds={this.updateHolds}
         loading={this.state.loading}
       />

@@ -14,6 +14,19 @@ export const fetchProblems = () => {
     );
 };
 
+export const deleteProblem = (uuid) => {
+  return fetch(`${HOMEWALL_API}/problems/${uuid}`, {
+    method: 'DELETE',
+  }).then(
+    (result) => {
+      return result;
+    },
+    (error) => {
+      console.error({ error });
+    },
+  );
+};
+
 export const fetchHolds = () => {
   return fetch(`${HOMEWALL_API}/holds`)
     .then((res) => res.json())
