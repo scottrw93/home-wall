@@ -7,9 +7,6 @@ import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
 import { fontGrades, toFont } from '../utils/Grades';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
   formControl: {
@@ -29,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
+const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
   const classes = useStyles();
 
   const [grade, setGrade] = React.useState(5);
@@ -39,37 +35,32 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        <Board onClick={clickHold} holds={selectedHolds} />
-        <div>
-          <TextField
-            className={classes.formControl}
-            label="Problem Name"
-            variant="outlined"
-            onChange={({ target: { value } }) => setName(value)}
-          />
-          <TextField
-            className={classes.formControl}
-            label="Author"
-            defaultValue={author}
-            variant="outlined"
-            onChange={({ target: { value } }) => setAuthor(value)}
-          />
+      <Board onClick={clickHold} holds={selectedHolds} />
+      <div>
+        <TextField
+          className={classes.formControl}
+          label="Problem Name"
+          variant="outlined"
+          onChange={({ target: { value } }) => setName(value)}
+        />
+        <TextField
+          className={classes.formControl}
+          label="Author"
+          defaultValue={author}
+          variant="outlined"
+          onChange={({ target: { value } }) => setAuthor(value)}
+        />
 
-          <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel>Grade</InputLabel>
-            <Select
-              value={grade}
-              onChange={({ target: { value } }) => setGrade(value)}
-              label="Grade"
-            >
-              {Object.keys(fontGrades).map((grade) => (
-                <MenuItem value={grade}>{toFont(grade)}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel>Grade</InputLabel>
+          <Select value={grade} onChange={({ target: { value } }) => setGrade(value)} label="Grade">
+            {Object.keys(fontGrades).map((grade) => (
+              <MenuItem value={grade}>{toFont(grade)}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+      <div>
         <Button
           className={classes.formControl}
           variant="contained"
@@ -86,7 +77,15 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
         >
           Save problem
         </Button>
-      </Container>
+        <Button
+          className={classes.formControl}
+          variant="contained"
+          color="secondary"
+          onClick={cancel}
+        >
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 };

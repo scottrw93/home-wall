@@ -35,11 +35,11 @@ class ProblemEditorContainer extends React.PureComponent {
   saveProblem(problem) {
     const { createProblem } = this.props;
 
-    createProblem(problem).then(() =>
-      this.setState({
-        selectedHolds: [],
-      }),
-    );
+    createProblem(problem);
+
+    this.setState({
+      selectedHolds: [],
+    });
   }
 
   render() {
@@ -47,6 +47,7 @@ class ProblemEditorContainer extends React.PureComponent {
 
     return (
       <ProblemEditor
+        {...this.props}
         selectedHolds={selectedHolds}
         clickHold={this.clickHold}
         saveProblem={this.saveProblem}

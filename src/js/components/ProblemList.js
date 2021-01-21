@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
   card: {
@@ -33,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     color: 'white',
     backgroundColor: 'black',
-    opacity: 0.61,
+    opacity: 0.6,
   },
   description: {
-    padding: '10px 10px 10px 10px',
+    padding: '10px 20px 10px 20px',
   },
   icons: {
     color: 'white',
@@ -47,45 +46,35 @@ const ProblemList = ({ problems, deleteProblem }) => {
   const classes = useStyles();
 
   if (problems.length === 0) {
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <Container maxWidth="sm">
-          <div className={classes.root}>No problems created yet</div>
-        </Container>
-      </div>
-    );
+    return <div className={classes.root}>No problems created yet</div>;
   }
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Container maxWidth="sm">
-        {problems.map(({ uuid, holds, name, grade, author }) => (
-          <div key={name} className={classes.card}>
-            <Board holds={holds} />
-            <div className={classes.overlay}>
-              <div className={classes.description}>
-                <Box display="flex" p={1}>
-                  <Box p={1} flexGrow={1}>
-                    <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
-                    <Typography variant="body1">{`by: ${author}`}</Typography>
-                  </Box>
-                  <Box p={1}>
-                    <IconButton
-                      aria-label="delete"
-                      className={classes.icons}
-                      onClick={() => deleteProblem(uuid)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
+      {problems.map(({ uuid, holds, name, grade, author }) => (
+        <div key={name} className={classes.card}>
+          <Board holds={holds} />
+          <div className={classes.overlay}>
+            <div className={classes.description}>
+              <Box display="flex" p={1}>
+                <Box p={1} flexGrow={1}>
+                  <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
+                  <Typography variant="body1">{`by: ${author}`}</Typography>
                 </Box>
-              </div>
+                <Box p={1}>
+                  <IconButton
+                    aria-label="delete"
+                    className={classes.icons}
+                    onClick={() => deleteProblem(uuid)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              </Box>
             </div>
           </div>
-        ))}
-      </Container>
+        </div>
+      ))}
     </div>
   );
 };
