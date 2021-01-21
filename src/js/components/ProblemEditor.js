@@ -6,12 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
-import { inside } from '../utils/RayCasting';
 
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { sameHold } from '../utils/Holds';
+import { fontGrades, toFont } from '../utils/Grades';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
   const classes = useStyles();
 
-  const [grade, setGrade] = React.useState('6B');
+  const [grade, setGrade] = React.useState(5);
   const [name, setName] = React.useState(null);
   const [author, setAuthor] = React.useState('Scott Williams');
   const disabled = selectedHolds.length < 3 || !name || !author || !grade;
@@ -65,10 +64,9 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
               onChange={({ target: { value } }) => setGrade(value)}
               label="Grade"
             >
-              <MenuItem value="None">None</MenuItem>
-              <MenuItem value="6B">6B</MenuItem>
-              <MenuItem value="7A">7A</MenuItem>
-              <MenuItem value="8A">8A</MenuItem>
+              {Object.keys(fontGrades).map((grade) => (
+                <MenuItem value={grade}>{toFont(grade)}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
@@ -93,55 +91,4 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem }) => {
   );
 };
 
-class ProblemEditorContainer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedHolds: [],
-    };
-
-    this.clickHold = this.clickHold.bind(this);
-    this.saveProblem = this.saveProblem.bind(this);
-  }
-
-  clickHold({ x, y }) {
-    const { allHolds } = this.props;
-    const { selectedHolds } = this.state;
-
-    allHolds.forEach((hold) => {
-      if (inside({ x, y }, hold)) {
-        this.setState({
-          selectedHolds:
-            selectedHolds.indexOf(hold) === -1
-              ? [...selectedHolds, hold]
-              : selectedHolds.filter((toDelete) => !sameHold(toDelete, hold)),
-        });
-      }
-    });
-  }
-
-  saveProblem(problem) {
-    const { createProblem } = this.props;
-
-    createProblem(problem);
-
-    this.setState({
-      selectedHolds: [],
-    });
-  }
-
-  render() {
-    const { selectedHolds } = this.state;
-
-    return (
-      <ProblemEditor
-        selectedHolds={selectedHolds}
-        clickHold={this.clickHold}
-        saveProblem={this.saveProblem}
-      />
-    );
-  }
-}
-
-export default ProblemEditorContainer;
+export default ProblemEditor;

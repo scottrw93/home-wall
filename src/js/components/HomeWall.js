@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  fetchHolds,
-  fetchProblems,
-  upsertHolds,
-  createProblem,
-  deleteProblem,
-} from '../api/HomeWallApi';
-import ProblemEditor from './ProblemEditor';
+
 import ProblemList from './ProblemList';
 import BoardEditor from './BoardEditor';
 
@@ -26,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import ProblemEditorContainer from '../containers/ProblemEditorContainer';
 
 const drawerWidth = 240;
 
@@ -177,76 +171,12 @@ const HomeWall = ({ problems, holds, createProblem, deleteProblem, loading, upda
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {page === 'list' && <ProblemList problems={problems} deleteProblem={deleteProblem} />}
-        {page === 'create' && <ProblemEditor allHolds={holds} createProblem={createProblem} />}
+        {page === 'create' && (
+          <ProblemEditorContainer holds={holds} createProblem={createProblem} />
+        )}
       </main>
     </div>
   );
 };
 
-class HomeWallContainer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      holds: [],
-      problems: [],
-    };
-
-    this.updateHolds = this.updateHolds.bind(this);
-    this.createProblem = this.createProblem.bind(this);
-    this.deleteProblem = this.deleteProblem.bind(this);
-  }
-
-  componentDidMount() {
-    fetchProblems().then((problems) => {
-      fetchHolds().then((holds) =>
-        this.setState({
-          problems,
-          holds: holds,
-          loading: false,
-        }),
-      );
-    });
-  }
-
-  createProblem(problem) {
-    createProblem(problem).then((createdProblem) =>
-      this.setState({
-        problems: [createdProblem, ...this.state.problems],
-      }),
-    );
-  }
-
-  deleteProblem(uuid) {
-    const { problems } = this.state;
-    deleteProblem(uuid).then(() =>
-      this.setState({
-        problems: problems.filter((p) => p.uuid !== uuid),
-      }),
-    );
-  }
-
-  updateHolds(holds) {
-    upsertHolds(holds).then((holds) =>
-      this.setState({
-        holds,
-      }),
-    );
-  }
-
-  render() {
-    return (
-      <HomeWall
-        problems={this.state.problems}
-        holds={this.state.holds}
-        createProblem={this.createProblem}
-        deleteProblem={this.deleteProblem}
-        updateHolds={this.updateHolds}
-        loading={this.state.loading}
-      />
-    );
-  }
-}
-
-export default HomeWallContainer;
+export default HomeWall;

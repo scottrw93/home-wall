@@ -1,11 +1,11 @@
 import '../css/App.css';
 
-import HomeWall from './components/HomeWall';
+import HomeWallContainer from './containers/HomeWallContainer';
 
 function App() {
   return (
     <div className="App">
-      <HomeWall />
+      <HomeWallContainer />
     </div>
   );
 }

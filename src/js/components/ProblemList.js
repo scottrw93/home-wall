@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Box } from '@material-ui/core';
 
+import { toFont } from '../utils/Grades';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -66,7 +68,7 @@ const ProblemList = ({ problems, deleteProblem }) => {
               <div className={classes.description}>
                 <Box display="flex" p={1}>
                   <Box p={1} flexGrow={1}>
-                    <Typography variant="h5">{`${name} ${grade}`}</Typography>
+                    <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
                     <Typography variant="body1">{`by: ${author}`}</Typography>
                   </Box>
                   <Box p={1}>
