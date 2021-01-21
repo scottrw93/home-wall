@@ -4,12 +4,12 @@ import HomeWallContainer from './containers/HomeWallContainer';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import blue from '@material-ui/core/colors/blue';
-import pink from '@material-ui/core/colors/pink';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 
 const theme = createMuiTheme({
   palette: {
     primary: blue,
-    secondary: pink,
+    secondary: blueGrey,
   },
 });
 
@@ -19,7 +19,6 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <HomeWallContainer />
       </MuiThemeProvider>
-      ,
     </div>
   );
 }
