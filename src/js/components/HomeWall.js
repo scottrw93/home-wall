@@ -8,6 +8,7 @@ import ProblemEditorContainer from '../containers/ProblemEditorContainer';
 import { Container, CircularProgress } from '@material-ui/core';
 import AddProblemButton from './AddProblemButton';
 import NavBar from './NavBar';
+import ProblemView from './ProblemView';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   toolbar: theme.mixins.toolbar,
   content: {
@@ -41,22 +42,36 @@ const Loading = () => {
 };
 
 const Content = ({ holds, page, problems, createProblem, deleteProblem, setPage }) => {
+  const [problem, openProblem] = React.useState(null);
+
+  if (page === 'problem') {
+    return (
+      <ProblemView
+        problem={problems.filter((p) => p.uuid === problem)[0]}
+        deleteProblem={deleteProblem}
+        cancel={() => setPage('list')}
+      />
+    );
+  } else if (page === 'create') {
+    return (
+      <ProblemEditorContainer
+        holds={holds}
+        createProblem={(problem) => createProblem(problem) && setPage('list')}
+        cancel={() => setPage('list')}
+      />
+    );
+  }
   return (
-    <div>
-      {page === 'list' && (
-        <React.Fragment>
-          <ProblemList problems={problems} deleteProblem={deleteProblem} />
-          <AddProblemButton showCreate={page === 'list'} onCreate={() => setPage('create')} />
-        </React.Fragment>
-      )}
-      {page === 'create' && (
-        <ProblemEditorContainer
-          holds={holds}
-          createProblem={(problem) => createProblem(problem) && setPage('list')}
-          cancel={() => setPage('list')}
-        />
-      )}
-    </div>
+    <React.Fragment>
+      <ProblemList
+        problems={problems}
+        openProblem={(problem) => {
+          openProblem(problem);
+          setPage('problem');
+        }}
+      />
+      <AddProblemButton showCreate={page === 'list'} onCreate={() => setPage('create')} />
+    </React.Fragment>
   );
 };
 

@@ -39,7 +39,7 @@ const NavBar = () => {
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-      <div class={classes.spacer} />
+      <div className={classes.spacer} />
     </div>
   );
 };

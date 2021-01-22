@@ -4,9 +4,7 @@ import Board from './Board';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 import { toFont } from '../utils/Grades';
 
@@ -22,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '50px',
     display: 'inline-block',
     backgroundColor: 'black',
+    '& div:hover': {
+      cursor: 'pointer',
+    },
   },
   overlay: {
     position: 'absolute',
@@ -35,12 +36,17 @@ const useStyles = makeStyles((theme) => ({
   description: {
     padding: '10px 20px 10px 20px',
   },
-  icons: {
-    color: 'white',
-  },
 }));
 
-const ProblemList = ({ problems, deleteProblem }) => {
+const ProblemList = ({
+  problems,
+  openProblem,
+  filters = {
+    name: null,
+    grade: null,
+    author: null,
+  },
+}) => {
   const classes = useStyles();
 
   if (problems.length === 0) {
@@ -49,30 +55,36 @@ const ProblemList = ({ problems, deleteProblem }) => {
 
   return (
     <div className={classes.root}>
-      {problems.map(({ uuid, holds, name, grade, author }) => (
-        <div key={name} className={classes.card}>
-          <Board holds={holds} />
-          <div className={classes.overlay}>
-            <div className={classes.description}>
-              <Box display="flex" p={1}>
-                <Box p={1} flexGrow={1}>
-                  <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
-                  <Typography variant="body1">{`by: ${author}`}</Typography>
-                </Box>
-                <Box p={1}>
-                  <IconButton
-                    aria-label="delete"
-                    className={classes.icons}
-                    onClick={() => deleteProblem(uuid)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </Box>
-              </Box>
+      {problems
+        .filter(
+          ({ name }) =>
+            !filters.name || name.toLowerCase().indexOf(filters.name.toLowerCase()) > -1,
+        )
+        .filter(
+          ({ author }) =>
+            !filters.author || author.toLowerCase().indexOf(filters.author.toLowerCase()) > -1,
+        )
+        .filter(
+          ({ grade }) =>
+            !filters.grade || (grade <= filters.grade.lte && grade >= filters.grade.gte),
+        )
+        .map(({ uuid, holds, name, grade, author }) => (
+          <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
+            <div>
+              <Board holds={holds} />
+              <div className={classes.overlay}>
+                <div className={classes.description}>
+                  <Box display="flex" p={1}>
+                    <Box p={1} flexGrow={1}>
+                      <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
+                      <Typography variant="body1">{`by: ${author}`}</Typography>
+                    </Box>
+                  </Box>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };
