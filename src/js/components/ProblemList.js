@@ -3,9 +3,7 @@ import Board from './Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Box } from '@material-ui/core';

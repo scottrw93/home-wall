@@ -3,7 +3,7 @@ import React from 'react';
 import ProblemList from './ProblemList';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ProblemEditorContainer from '../containers/ProblemEditorContainer';
 import { Container, CircularProgress } from '@material-ui/core';
 import AddProblemButton from './AddProblemButton';
@@ -62,7 +62,6 @@ const Content = ({ holds, page, problems, createProblem, deleteProblem, setPage 
 
 const HomeWall = ({ problems, holds, createProblem, deleteProblem, loading, updateHolds }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const [page, setPage] = React.useState('list');
 
