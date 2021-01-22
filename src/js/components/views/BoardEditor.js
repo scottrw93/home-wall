@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Board from './Board';
+import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 

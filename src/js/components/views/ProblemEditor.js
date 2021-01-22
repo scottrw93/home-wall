@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from './Board';
+import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 
-import { fontGrades, toFont } from '../utils/Grades';
+import { fontGrades, toFont } from '../../utils/Grades';
 
 const useStyles = makeStyles((theme) => ({
   root: {

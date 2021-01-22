@@ -1,14 +1,13 @@
 import React from 'react';
 
-import ProblemList from './ProblemList';
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import ProblemEditorContainer from '../containers/ProblemEditorContainer';
 import { Container, CircularProgress } from '@material-ui/core';
-import AddProblemButton from './AddProblemButton';
-import NavBar from './NavBar';
-import ProblemView from './ProblemView';
+import AddProblemButton from './buttons/AddProblemButton';
+import NavBar from './nav/NavBar';
+import ProblemView from './views/ProblemView';
+import ProblemList from './views/ProblemList';
 
 const useStyles = makeStyles((theme) => ({
   root: {

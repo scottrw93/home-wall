@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from './Board';
+import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import Grid from '@material-ui/core/Grid';
 import { IconButton, Typography } from '@material-ui/core';
-import { toFont } from '../utils/Grades';
+import { toFont } from '../../utils/Grades';
 
 const useStyles = makeStyles((theme) => ({
   root: {

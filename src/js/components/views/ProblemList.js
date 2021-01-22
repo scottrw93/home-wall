@@ -1,12 +1,12 @@
 import React from 'react';
-import Board from './Board';
+import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-import { toFont } from '../utils/Grades';
+import { toFont } from '../../utils/Grades';
 
 const useStyles = makeStyles((theme) => ({
   root: {
