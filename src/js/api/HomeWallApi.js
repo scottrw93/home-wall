@@ -1,4 +1,5 @@
-const HOMEWALL_API = 'https://europe-west3-homewall-301021.cloudfunctions.net/HomeWall';
+const HOMEWALL_API =
+  'https://europe-west3-homewall-301021.cloudfunctions.net/HomeWall';
 //const HOMEWALL_API = 'http://localhost:8080';
 
 export const fetchProblems = () => {

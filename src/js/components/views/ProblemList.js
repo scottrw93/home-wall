@@ -58,15 +58,18 @@ const ProblemList = ({
       {problems
         .filter(
           ({ name }) =>
-            !filters.name || name.toLowerCase().indexOf(filters.name.toLowerCase()) > -1,
+            !filters.name ||
+            name.toLowerCase().indexOf(filters.name.toLowerCase()) > -1,
         )
         .filter(
           ({ author }) =>
-            !filters.author || author.toLowerCase().indexOf(filters.author.toLowerCase()) > -1,
+            !filters.author ||
+            author.toLowerCase().indexOf(filters.author.toLowerCase()) > -1,
         )
         .filter(
           ({ grade }) =>
-            !filters.grade || (grade <= filters.grade.lte && grade >= filters.grade.gte),
+            !filters.grade ||
+            (grade <= filters.grade.lte && grade >= filters.grade.gte),
         )
         .map(({ uuid, holds, name, grade, author }) => (
           <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
@@ -76,7 +79,9 @@ const ProblemList = ({
                 <div className={classes.description}>
                   <Box display="flex" p={1}>
                     <Box p={1} flexGrow={1}>
-                      <Typography variant="h5">{`${name} ${toFont(grade)}`}</Typography>
+                      <Typography variant="h5">{`${name} ${toFont(
+                        grade,
+                      )}`}</Typography>
                       <Typography variant="body1">{`by: ${author}`}</Typography>
                     </Box>
                   </Box>

@@ -53,7 +53,11 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
 
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel>Grade</InputLabel>
-          <Select value={grade} onChange={({ target: { value } }) => setGrade(value)} label="Grade">
+          <Select
+            value={grade}
+            onChange={({ target: { value } }) => setGrade(value)}
+            label="Grade"
+          >
             {Object.keys(fontGrades).map((grade) => (
               <MenuItem value={grade}>{toFont(grade)}</MenuItem>
             ))}

@@ -10,7 +10,8 @@ export const inside = (point, vs) => {
       yj = vs[j].y;
 
     // eslint-disable-next-line
-    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    const intersect =
+      yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
     if (intersect) inside = !inside;
   }
 

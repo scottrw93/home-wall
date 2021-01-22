@@ -37,7 +37,12 @@ const AddProblemButton = ({ onCreate }) => {
 
   return (
     <div color="primary" className={classes.appBar}>
-      <Fab color="secondary" aria-label="add" className={classes.fabButton} onClick={onCreate}>
+      <Fab
+        color="secondary"
+        aria-label="add"
+        className={classes.fabButton}
+        onClick={onCreate}
+      >
         <AddIcon />
       </Fab>
     </div>

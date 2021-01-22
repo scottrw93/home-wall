@@ -63,7 +63,11 @@ const Header = ({ name, grade, author, cancel }) => {
   );
 };
 
-const ProblemView = ({ problem: { author, holds, uuid, name, grade }, deleteProblem, cancel }) => {
+const ProblemView = ({
+  problem: { author, holds, uuid, name, grade },
+  deleteProblem,
+  cancel,
+}) => {
   const classes = useStyles();
 
   return (

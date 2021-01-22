@@ -40,7 +40,14 @@ const Loading = () => {
   );
 };
 
-const Content = ({ holds, page, problems, createProblem, deleteProblem, setPage }) => {
+const Content = ({
+  holds,
+  page,
+  problems,
+  createProblem,
+  deleteProblem,
+  setPage,
+}) => {
   const [problem, openProblem] = React.useState(null);
 
   if (page === 'problem') {
@@ -69,12 +76,22 @@ const Content = ({ holds, page, problems, createProblem, deleteProblem, setPage 
           setPage('problem');
         }}
       />
-      <AddProblemButton showCreate={page === 'list'} onCreate={() => setPage('create')} />
+      <AddProblemButton
+        showCreate={page === 'list'}
+        onCreate={() => setPage('create')}
+      />
     </React.Fragment>
   );
 };
 
-const HomeWall = ({ problems, holds, createProblem, deleteProblem, loading, updateHolds }) => {
+const HomeWall = ({
+  problems,
+  holds,
+  createProblem,
+  deleteProblem,
+  loading,
+  updateHolds,
+}) => {
   const classes = useStyles();
 
   const [page, setPage] = React.useState('list');
