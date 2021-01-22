@@ -41,27 +41,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Header = ({ name, grade, author, cancel }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.header}>
+      <Grid container direction="row" justify="space-between" alignItems="center">
+        <Grid item>
+          <Typography variant="h5" component="h2">
+            {`${name} ${toFont(grade)}`}
+          </Typography>
+          <Typography color="textSecondary">{`by ${author}`}</Typography>
+        </Grid>
+        <Grid item>
+          <IconButton aria-label="back" onClick={cancel}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
 const ProblemView = ({ problem: { author, holds, uuid, name, grade }, deleteProblem, cancel }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <div>
-        <div className={classes.header}>
-          <Grid container direction="row" justify="space-between" alignItems="center">
-            <Grid item>
-              <Typography variant="h5" component="h2">
-                {`${name} ${toFont(grade)}`}
-              </Typography>
-              <Typography color="textSecondary">{`by ${author}`}</Typography>
-            </Grid>
-            <Grid item>
-              <IconButton aria-label="back" onClick={cancel}>
-                <CloseIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </div>
+        <Header name={name} grade={grade} author={author} cancel={cancel} />
         <Board holds={holds} />
         <Grid
           container
