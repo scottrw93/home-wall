@@ -6,9 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
 
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -31,8 +28,6 @@ const BoardEditor = ({ holds, handleClick, saveBoard }) => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <Container maxWidth="sm">
         <Board onClick={handleClick} holds={holds} />
         <Button
           className={classes.formControl}
@@ -42,7 +37,6 @@ const BoardEditor = ({ holds, handleClick, saveBoard }) => {
         >
           Save board
         </Button>
-      </Container>
     </div>
   );
 };
