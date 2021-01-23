@@ -8,6 +8,7 @@ before_install:
 
 before_install:
   - npm install -g yarn
+  - yarn add react-google-login
 
 install:
   - yarn build
