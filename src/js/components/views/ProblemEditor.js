@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +8,7 @@ import { TextField } from '@material-ui/core';
 import { MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 
 import { fontGrades, toFont } from '../../utils/Grades';
+import { UserContext } from '../../context/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +31,9 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
 
   const [grade, setGrade] = React.useState(5);
   const [name, setName] = React.useState(null);
-  const [author, setAuthor] = React.useState('Scott Williams');
-  const disabled = selectedHolds.length < 3 || !name || !author || !grade;
+  const user = useContext(UserContext);
+
+  const disabled = selectedHolds.length < 3 || !name || !grade;
 
   return (
     <div className={classes.root}>
@@ -42,13 +44,6 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
           label="Problem Name"
           variant="outlined"
           onChange={({ target: { value } }) => setName(value)}
-        />
-        <TextField
-          className={classes.formControl}
-          label="Author"
-          defaultValue={author}
-          variant="outlined"
-          onChange={({ target: { value } }) => setAuthor(value)}
         />
 
         <FormControl variant="outlined" className={classes.formControl}>
@@ -73,7 +68,7 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
             saveProblem({
               name,
               grade,
-              author,
+              author: user.name,
               holds: selectedHolds,
             })
           }

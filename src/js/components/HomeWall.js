@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +8,8 @@ import AddProblemButton from './buttons/AddProblemButton';
 import NavBar from './nav/NavBar';
 import ProblemView from './views/ProblemView';
 import ProblemList from './views/ProblemList';
+import { UserContext } from '../context/UserContext';
+import { CREATE } from '../auth/Scopes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +51,7 @@ const Content = ({
   setPage,
 }) => {
   const [problem, openProblem] = React.useState(null);
+  const user = useContext(UserContext);
 
   if (page === 'problem') {
     return (
@@ -76,10 +79,12 @@ const Content = ({
           setPage('problem');
         }}
       />
-      <AddProblemButton
-        showCreate={page === 'list'}
-        onCreate={() => setPage('create')}
-      />
+      {user.scopes.indexOf(CREATE) > -1 && (
+        <AddProblemButton
+          showCreate={page === 'list'}
+          onCreate={() => setPage('create')}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -90,17 +95,17 @@ const HomeWall = ({
   createProblem,
   deleteProblem,
   loading,
+  onLoginChange,
   updateHolds,
 }) => {
   const classes = useStyles();
-
   const [page, setPage] = React.useState('list');
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <main className={classes.content}>
-        <NavBar />
+        <NavBar onLoginChange={onLoginChange} />
         <Container maxWidth="sm">
           {loading ? (
             <Loading />

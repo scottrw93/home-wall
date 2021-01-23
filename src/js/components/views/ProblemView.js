@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,6 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import { IconButton, Typography } from '@material-ui/core';
 import { toFont } from '../../utils/Grades';
+import { UserContext } from '../../context/UserContext';
+import { DELETE } from '../../auth/Scopes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,27 +71,30 @@ const ProblemView = ({
   cancel,
 }) => {
   const classes = useStyles();
+  const user = useContext(UserContext);
 
   return (
     <div className={classes.root}>
       <div>
         <Header name={name} grade={grade} author={author} cancel={cancel} />
         <Board holds={holds} />
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          justify="flex-end"
-          className={classes.actions}
-        >
-          <DeleteIcon
-            aria-label="delete"
-            onClick={() => {
-              deleteProblem(uuid);
-              cancel();
-            }}
-          />
-        </Grid>
+        {user.scopes.indexOf(DELETE) > -1 && (
+          <Grid
+            container
+            alignItems="center"
+            direction="row"
+            justify="flex-end"
+            className={classes.actions}
+          >
+            <DeleteIcon
+              aria-label="delete"
+              onClick={() => {
+                deleteProblem(uuid);
+                cancel();
+              }}
+            />
+          </Grid>
+        )}
       </div>
     </div>
   );

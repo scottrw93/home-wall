@@ -65,6 +65,7 @@ class HomeWallContainer extends React.PureComponent {
   render() {
     return (
       <HomeWall
+        {...this.props}
         problems={this.state.problems}
         holds={this.state.holds}
         createProblem={this.createProblem}
