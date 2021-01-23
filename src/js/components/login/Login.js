@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { READ, CREATE, DELETE } from '../../auth/Scopes';
+import { READ, CREATE, DELETE, DELETE_OWN } from '../../auth/Scopes';
 import { UserContext } from '../../context/UserContext';
 
 const CLIENT_ID =
@@ -30,14 +30,17 @@ const Login = ({ onLoginChange }) => {
       clientId={CLIENT_ID}
       buttonText="Login"
       onSuccess={(response) => {
-        //TODO: Server side
+        //TODO: Server
         const profile = response.getBasicProfile();
         onLoginChange({
           signedIn: true,
           name: profile.getName(),
           email: profile.getEmail(),
           image: profile.getImageUrl(),
-          scopes: [READ, CREATE, DELETE],
+          scopes:
+            profile.getName() === 'Scott Williams'
+              ? [READ, CREATE, DELETE, DELETE_OWN]
+              : [READ, CREATE, DELETE_OWN],
         });
       }}
       onFailure={() => null}
