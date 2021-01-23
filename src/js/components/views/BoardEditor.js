@@ -28,15 +28,15 @@ const BoardEditor = ({ holds, handleClick, saveBoard }) => {
 
   return (
     <div className={classes.root}>
-        <Board onClick={handleClick} holds={holds} />
-        <Button
-          className={classes.formControl}
-          variant="contained"
-          color="primary"
-          onClick={saveBoard}
-        >
-          Save board
-        </Button>
+      <Board onClick={handleClick} holds={holds} />
+      <Button
+        className={classes.formControl}
+        variant="contained"
+        color="primary"
+        onClick={saveBoard}
+      >
+        Save board
+      </Button>
     </div>
   );
 };

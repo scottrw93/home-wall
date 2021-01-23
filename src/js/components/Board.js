@@ -42,22 +42,18 @@ class Board extends React.PureComponent {
     this.canvasRef = React.createRef();
 
     this.state = {
-      img: new Image(),
+      img: null,
     };
   }
 
   componentDidMount() {
-    const { img } = this.state;
     const { holds } = this.props;
 
     const ref = this.canvasRef.current;
     const context = ref.getContext('2d');
 
+    const img = new Image();
     img.src = wall;
-
-    this.setState({
-      img,
-    });
 
     img.onload = () => {
       const height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
@@ -74,6 +70,10 @@ class Board extends React.PureComponent {
       context.strokeStyle = '#FFFFFF';
 
       drawHolds(holds, context);
+
+      this.setState({
+        img,
+      });
     };
   }
 
@@ -98,22 +98,32 @@ class Board extends React.PureComponent {
 
   render() {
     const { onClick } = this.props;
+    const { img } = this.state;
 
     return (
-      <canvas
-        ref={this.canvasRef}
-        onMouseDown={({ clientX, clientY }) => {
-          if (onClick) {
-            const ref = this.canvasRef.current;
-            const canvas = ref.getBoundingClientRect();
+      <React.Fragment>
+        <img
+          style={img ? { display: 'none' } : {}}
+          width={WIDTH / SCALE}
+          height="auto"
+          src={wall}
+        />
+        <canvas
+          style={!img ? { display: 'none' } : {}}
+          ref={this.canvasRef}
+          onMouseDown={({ clientX, clientY }) => {
+            if (onClick) {
+              const ref = this.canvasRef.current;
+              const canvas = ref.getBoundingClientRect();
 
-            const x = clientX - canvas.left;
-            const y = clientY - canvas.top;
+              const x = clientX - canvas.left;
+              const y = clientY - canvas.top;
 
-            onClick({ x: x * SCALE, y: y * SCALE });
-          }
-        }}
-      />
+              onClick({ x: x * SCALE, y: y * SCALE });
+            }
+          }}
+        />
+      </React.Fragment>
     );
   }
 }
