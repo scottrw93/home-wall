@@ -1,7 +1,8 @@
 import React from 'react';
 
-import wall from '../../media/wall.jpg';
 import { containsHolds } from '../utils/Holds';
+
+const IMG_SRC = 'https://storage.googleapis.com/home-wall-images/wall.jpg';
 
 const WIDTH = 600;
 const PIXEL_RATIO =
@@ -53,7 +54,7 @@ class Board extends React.PureComponent {
     const context = ref.getContext('2d');
 
     const img = new Image();
-    img.src = wall;
+    img.src = IMG_SRC;
 
     img.onload = () => {
       const height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
@@ -106,7 +107,7 @@ class Board extends React.PureComponent {
           style={img ? { display: 'none' } : {}}
           width={WIDTH / SCALE}
           height="auto"
-          src={wall}
+          src={IMG_SRC}
         />
         <canvas
           style={!img ? { display: 'none' } : {}}
