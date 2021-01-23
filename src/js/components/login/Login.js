@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     width: '100%',
-    maxWidth: '600px',
+    maxWidth: '650px',
     paddingLeft: 10,
     paddingRight: 10,
     left: '50%',
