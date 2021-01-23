@@ -7,7 +7,8 @@ before_install:
   - chmod 600 deploy/travis
 
 before_install:
-  npm upgrade --global yarn 
+  - npm install -g yarn
+
 install:
   - yarn build
 
