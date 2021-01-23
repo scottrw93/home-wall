@@ -1,6 +1,6 @@
-const HOMEWALL_API =
-  'https://europe-west3-homewall-301021.cloudfunctions.net/HomeWall';
-//const HOMEWALL_API = 'http://localhost:8080';
+//const HOMEWALL_API =
+//  'https://europe-west3-homewall-301021.cloudfunctions.net/HomeWall';
+const HOMEWALL_API = 'http://localhost:8080';
 
 export const fetchProblems = () => {
   return fetch(`${HOMEWALL_API}/problems`)
@@ -28,24 +28,8 @@ export const deleteProblem = (uuid) => {
   );
 };
 
-export const fetchHolds = () => {
-  return fetch(`${HOMEWALL_API}/holds`)
-    .then((res) => res.json())
-    .then(
-      (result) => {
-        return result;
-      },
-      (error) => {
-        console.error({ error });
-      },
-    );
-};
-
-export const upsertHolds = (holds) => {
-  return fetch(`${HOMEWALL_API}/holds`, {
-    method: 'PUT',
-    body: JSON.stringify(holds),
-  })
+export const fetchWalls = () => {
+  return fetch(`${HOMEWALL_API}/walls`)
     .then((res) => res.json())
     .then(
       (result) => {

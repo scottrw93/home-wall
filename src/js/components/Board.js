@@ -21,14 +21,14 @@ const SCALE = window.matchMedia
 const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
 const drawHolds = (holds, context) => {
-  holds.forEach((hold) => {
+  holds.forEach(({ points }) => {
     context.beginPath();
 
-    const { x: x0, y: y0 } = hold[0];
+    const { x: x0, y: y0 } = points[0];
 
     context.moveTo(pointAt(x0), pointAt(y0));
 
-    hold.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
+    points.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
     context.lineTo(pointAt(x0), pointAt(y0));
 
     context.stroke();

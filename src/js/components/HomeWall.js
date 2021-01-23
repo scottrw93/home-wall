@@ -96,7 +96,6 @@ const HomeWall = ({
   deleteProblem,
   loading,
   onLoginChange,
-  updateHolds,
 }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState('list');

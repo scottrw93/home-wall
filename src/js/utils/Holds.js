@@ -1,12 +1,12 @@
 export const samePoint = (a, b) => a.x === b.x && a.y === b.y;
 
 export const sameHold = (a, b) => {
-  if (a.length !== b.length) {
+  if (a.points.length !== b.points.length) {
     return false;
   }
 
-  for (let i = 0; i < a.length; i++) {
-    if (!samePoint(a[i], b[i])) {
+  for (let i = 0; i < a.points.length; i++) {
+    if (!samePoint(a.points[i], b.points[i])) {
       return false;
     }
   }

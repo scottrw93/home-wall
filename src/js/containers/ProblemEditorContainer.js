@@ -21,7 +21,7 @@ class ProblemEditorContainer extends React.PureComponent {
     const { selectedHolds } = this.state;
 
     holds.forEach((hold) => {
-      if (inside({ x, y }, hold)) {
+      if (inside({ x, y }, hold.points)) {
         this.setState({
           selectedHolds:
             selectedHolds.indexOf(hold) === -1

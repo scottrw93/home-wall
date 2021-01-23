@@ -54,7 +54,9 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
             label="Grade"
           >
             {Object.keys(fontGrades).map((grade) => (
-              <MenuItem value={grade}>{toFont(grade)}</MenuItem>
+              <MenuItem key={grade} value={grade}>
+                {toFont(grade)}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -70,6 +72,7 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
               grade,
               author: user.name,
               holds: selectedHolds,
+              wallUuid: '813d0573-9640-4643-94d5-ecf3d512db4e',
             })
           }
           disabled={disabled}

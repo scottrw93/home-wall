@@ -1,9 +1,8 @@
 import React from 'react';
 
 import {
-  fetchHolds,
+  fetchWalls,
   fetchProblems,
-  upsertHolds,
   createProblem,
   deleteProblem,
 } from '../api/HomeWallApi';
@@ -15,21 +14,20 @@ class HomeWallContainer extends React.PureComponent {
 
     this.state = {
       loading: true,
-      holds: [],
+      walls: [],
       problems: [],
     };
 
-    this.updateHolds = this.updateHolds.bind(this);
     this.createProblem = this.createProblem.bind(this);
     this.deleteProblem = this.deleteProblem.bind(this);
   }
 
   componentDidMount() {
     return fetchProblems().then((problems) => {
-      return fetchHolds().then((holds) =>
+      return fetchWalls().then((walls) =>
         this.setState({
           problems,
-          holds: holds,
+          walls: walls,
           loading: false,
         }),
       );
@@ -54,23 +52,14 @@ class HomeWallContainer extends React.PureComponent {
     );
   }
 
-  updateHolds(holds) {
-    return upsertHolds(holds).then((holds) =>
-      this.setState({
-        holds,
-      }),
-    );
-  }
-
   render() {
     return (
       <HomeWall
         {...this.props}
         problems={this.state.problems}
-        holds={this.state.holds}
+        holds={(this.state.walls[0] || { holds: [] }).holds}
         createProblem={this.createProblem}
         deleteProblem={this.deleteProblem}
-        updateHolds={this.updateHolds}
         loading={this.state.loading}
       />
     );
