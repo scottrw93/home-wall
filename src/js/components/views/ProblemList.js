@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import { toFont } from '../../utils/Grades';
+import { UserContext } from '../../context/UserContext';
+import { CREATE } from '../../auth/Scopes';
+import AddProblemButton from '../buttons/AddProblemButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const ProblemList = ({
   problems,
   openProblem,
+  addProblem,
   filters = {
     name: null,
     grade: null,
@@ -48,6 +52,7 @@ const ProblemList = ({
   },
 }) => {
   const classes = useStyles();
+  const user = useContext(UserContext);
 
   if (problems.length === 0) {
     return <div className={classes.root}>No problems created yet</div>;
@@ -90,6 +95,9 @@ const ProblemList = ({
             </div>
           </div>
         ))}
+      {user.scopes.indexOf(CREATE) > -1 && (
+        <AddProblemButton onCreate={addProblem} />
+      )}
     </div>
   );
 };

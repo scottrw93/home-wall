@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../css/App.css';
 
-import HomeWallContainer from './containers/HomeWallContainer';
+import HomeWallsContainer from './containers/HomeWallsContainer';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import blue from '@material-ui/core/colors/blue';
@@ -27,7 +27,7 @@ const App = () => {
     <UserContext.Provider value={login}>
       <div className="App">
         <MuiThemeProvider theme={theme}>
-          <HomeWallContainer onLoginChange={onLoginSuccess} />
+          <HomeWallsContainer onLoginChange={onLoginSuccess} />
         </MuiThemeProvider>
       </div>
     </UserContext.Provider>

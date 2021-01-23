@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = ({ onLoginChange }) => {
+const NavBar = ({ walls, onLoginChange }) => {
   const classes = useStyles();
 
   return (

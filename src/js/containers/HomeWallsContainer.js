@@ -6,9 +6,9 @@ import {
   createProblem,
   deleteProblem,
 } from '../api/HomeWallApi';
-import HomeWall from '../components/HomeWall';
+import HomeWalls from '../components/HomeWalls';
 
-class HomeWallContainer extends React.PureComponent {
+class HomeWallsContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -27,7 +27,7 @@ class HomeWallContainer extends React.PureComponent {
       return fetchWalls().then((walls) =>
         this.setState({
           problems,
-          walls: walls,
+          walls,
           loading: false,
         }),
       );
@@ -54,16 +54,16 @@ class HomeWallContainer extends React.PureComponent {
 
   render() {
     return (
-      <HomeWall
+      <HomeWalls
         {...this.props}
-        problems={this.state.problems}
-        holds={(this.state.walls[0] || { holds: [] }).holds}
         createProblem={this.createProblem}
         deleteProblem={this.deleteProblem}
+        problems={this.state.problems}
+        walls={this.state.walls}
         loading={this.state.loading}
       />
     );
   }
 }
 
-export default HomeWallContainer;
+export default HomeWallsContainer;
