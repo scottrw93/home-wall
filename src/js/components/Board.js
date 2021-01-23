@@ -104,6 +104,7 @@ class Board extends React.PureComponent {
     return (
       <React.Fragment>
         <img
+          alt="board"
           style={img ? { display: 'none' } : {}}
           width={WIDTH / SCALE}
           height="auto"
