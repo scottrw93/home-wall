@@ -61,7 +61,7 @@ const ProblemList = ({
 
   return (
     <div className={classes.root}>
-      {problems.map(({ uuid, holds, name, grade, author }) => (
+      {problems.map(({ uuid, holds, name, grade, author, createdAt }) => (
         <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
           <div>
             <Board src={image} holds={holds} />
@@ -72,7 +72,9 @@ const ProblemList = ({
                     <Typography variant="h5">{`${name} ${toFont(
                       grade,
                     )}`}</Typography>
-                    <Typography variant="body1">{`by: ${author}`}</Typography>
+                    <Typography variant="body1">{`by: ${author} at: ${new Date(
+                      createdAt,
+                    ).toLocaleString()}`}</Typography>
                   </Box>
                 </Box>
               </div>
