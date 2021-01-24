@@ -1,5 +1,5 @@
 import React from 'react';
-import ProblemEditor from '../components/views/ProblemEditor';
+import ProblemEditor from '../components/problems/ProblemEditor';
 
 import { inside } from '../utils/RayCasting';
 import { sameHold } from '../utils/Holds';

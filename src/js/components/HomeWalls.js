@@ -7,7 +7,7 @@ import { Container, CircularProgress } from '@material-ui/core';
 
 import NavBar from './nav/NavBar';
 import HomeWall from './HomeWall';
-import WallUploaderContainer from './views/WallUploader';
+import WallUploaderContainer from './walls/WallUploader';
 
 const useStyles = makeStyles((theme) => ({
   root: {

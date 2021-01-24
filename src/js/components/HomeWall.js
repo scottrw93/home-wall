@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import ProblemEditorContainer from '../containers/ProblemEditorContainer';
-import ProblemView from './views/ProblemView';
-import ProblemList from './views/ProblemList';
+import ProblemView from './problems/ProblemView';
+import ProblemList from './problems/ProblemList';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
