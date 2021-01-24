@@ -33,7 +33,7 @@ const MenuDrawer = ({ walls, open, close }) => {
           onKeyDown={toggleDrawer}
         >
           <List>
-            <img src={logo}/>
+            <img src={logo} alt="home wall logo" />
             {walls.map(({ name }) => (
               <ListItem button key={name}>
                 <ListItemText primary={name} />
