@@ -49,7 +49,7 @@ const ProblemList = ({
     name: null,
     grade: null,
     author: null,
-    createdAt: null
+
   },
 }) => {
   const classes = useStyles();
@@ -76,10 +76,6 @@ const ProblemList = ({
           ({ grade }) =>
             !filters.grade ||
             (grade <= filters.grade.lte && grade >= filters.grade.gte),
-        )
-        .filter(
-          ({ createdAt }) => 
-          !filters.createdAt
         )
         .map(({ uuid, holds, name, grade, author, createdAt }) => (
           <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
