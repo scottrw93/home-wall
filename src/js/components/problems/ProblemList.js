@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemList = ({ problems, openProblem, addProblem }) => {
+const ProblemList = ({ wall: {holds, image}, problems, openProblem, addProblem }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
 
@@ -59,7 +59,7 @@ const ProblemList = ({ problems, openProblem, addProblem }) => {
       {problems.map(({ uuid, holds, name, grade, author }) => (
         <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
           <div>
-            <Board holds={holds} />
+            <Board src={image} holds={holds} />
             <div className={classes.overlay}>
               <div className={classes.description}>
                 <Box display="flex" p={1}>

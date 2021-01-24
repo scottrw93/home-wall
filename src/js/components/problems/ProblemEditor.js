@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProblemEditor = ({
   selectedHolds,
-  wallUuid,
+  wall: {image, uuid: wallUuid},
   clickHold,
   saveProblem,
   cancel,
@@ -43,7 +43,7 @@ const ProblemEditor = ({
 
   return (
     <div className={classes.root}>
-      <Board onClick={clickHold} holds={selectedHolds} />
+      <Board src={image} onClick={clickHold} holds={selectedHolds} />
       <div>
         <TextField
           className={classes.formControl}

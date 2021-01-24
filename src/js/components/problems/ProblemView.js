@@ -66,6 +66,7 @@ const Header = ({ name, grade, author, cancel }) => {
 };
 
 const ProblemView = ({
+  wall: {image},
   problem: { author, holds, uuid, name, grade },
   deleteProblem,
   cancel,
@@ -77,7 +78,7 @@ const ProblemView = ({
     <div className={classes.root}>
       <div>
         <Header name={name} grade={grade} author={author} cancel={cancel} />
-        <Board holds={holds} />
+        <Board src={image} holds={holds} />
         {canDeleteProblem(user, author) && (
           <Grid
             container

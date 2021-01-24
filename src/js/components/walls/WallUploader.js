@@ -28,11 +28,12 @@ const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
   const classes = useStyles();
 
   const [name, setName] = useState(null);
-  const disabled = !name || holds.length < 1;
+  const [image, setImage] = useState('https://storage.googleapis.com/home-wall-images/wall.jpg');
+  const disabled = !name || holds.length < 10;
 
   return (
     <div className={classes.root}>
-      <Board onClick={handleClick} holds={holds} />
+      <Board src={image} onClick={handleClick} holds={holds} />
       <div>
         <TextField
           className={classes.formControl}
@@ -51,7 +52,7 @@ const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
             saveBoard({
               name,
               holds,
-              image: 'https://storage.googleapis.com/home-wall-images/wall.jpg',
+              image,
             })
           }
         >

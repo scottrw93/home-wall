@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeWall = ({
   problems,
-  wall: { holds, uuid: wallUuid },
+  wall,
   createProblem,
   deleteProblem,
 }) => {
@@ -24,6 +24,7 @@ const HomeWall = ({
     <div className={classes.root}>
       {page === 'problem' && (
         <ProblemView
+        wall={wall}
           problem={problems.filter((p) => p.uuid === problem)[0]}
           deleteProblem={(problem) => {
             deleteProblem(problem);
@@ -34,8 +35,7 @@ const HomeWall = ({
       )}
       {page === 'create' && (
         <ProblemEditorContainer
-          wallUuid={wallUuid}
-          holds={holds}
+          wall={wall}
           createProblem={(problem) => {
             createProblem(problem);
             setPage('list');
@@ -45,6 +45,7 @@ const HomeWall = ({
       )}
       {page === 'list' && (
         <ProblemList
+          wall={wall}
           problems={problems}
           openProblem={(problem) => {
             openProblem(problem);

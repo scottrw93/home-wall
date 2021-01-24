@@ -2,8 +2,6 @@ import React from 'react';
 
 import { containsHolds } from '../utils/Holds';
 
-const IMG_SRC = 'https://storage.googleapis.com/home-wall-images/wall.jpg';
-
 const WIDTH = 600;
 const PIXEL_RATIO =
   window.matchMedia && window.matchMedia('screen and (max-width: 900px)').matches
@@ -48,13 +46,13 @@ class Board extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { holds } = this.props;
+    const { holds, src } = this.props;
 
     const ref = this.canvasRef.current;
     const context = ref.getContext('2d');
 
     const img = new Image();
-    img.src = IMG_SRC;
+    img.src = src;
 
     img.onload = () => {
       const height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
@@ -98,7 +96,7 @@ class Board extends React.PureComponent {
   }
 
   render() {
-    const { onClick } = this.props;
+    const { src, onClick } = this.props;
     const { img } = this.state;
 
     return (
@@ -108,7 +106,7 @@ class Board extends React.PureComponent {
           style={img ? { display: 'none' } : {}}
           width={WIDTH / SCALE}
           height="auto"
-          src={IMG_SRC}
+          src={src}
         />
         <canvas
           style={!img ? { display: 'none' } : {}}
