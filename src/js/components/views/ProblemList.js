@@ -55,7 +55,14 @@ const ProblemList = ({
   const user = useContext(UserContext);
 
   if (problems.length === 0) {
-    return <div className={classes.root}>No problems created yet</div>;
+    return (
+      <div className={classes.root}>
+        <Typography variant="h5">No problems created yet</Typography>
+        {user.scopes.indexOf(CREATE) > -1 && (
+          <AddProblemButton onCreate={addProblem} />
+        )}
+      </div>
+    );
   }
 
   return (

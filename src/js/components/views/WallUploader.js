@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,25 +24,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BoardEditor = ({ holds, handleClick, saveBoard }) => {
+const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
   const classes = useStyles();
+
+  const [name, setName] = useState(null);
+  const disabled = !name || holds.length < 1;
 
   return (
     <div className={classes.root}>
       <Board onClick={handleClick} holds={holds} />
-      <Button
-        className={classes.formControl}
-        variant="contained"
-        color="primary"
-        onClick={saveBoard}
-      >
-        Save board
-      </Button>
+      <div>
+        <TextField
+          className={classes.formControl}
+          label="Wall Name"
+          variant="outlined"
+          onChange={({ target: { value } }) => setName(value)}
+        />
+      </div>
+      <div>
+        <Button
+          className={classes.formControl}
+          variant="contained"
+          color="primary"
+          disabled={disabled}
+          onClick={() =>
+            saveBoard({
+              name,
+              holds,
+              image: 'https://storage.googleapis.com/home-wall-images/wall.jpg',
+            })
+          }
+        >
+          Save wall
+        </Button>
+      </div>
     </div>
   );
 };
 
-class BoardEditorContainer extends React.PureComponent {
+class WallUploaderContainer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -89,21 +110,24 @@ class BoardEditorContainer extends React.PureComponent {
     }
 
     this.setState({
-      holds: [...holds, points],
+      holds: [...holds, { points }],
       points: [],
     });
   }
 
-  saveBoard() {
-    const { updateHolds } = this.props;
-    const { holds } = this.state;
+  saveBoard({ holds, name, image }) {
+    const { createWall } = this.props;
 
-    updateHolds(holds);
+    createWall({
+      name,
+      image,
+      holds,
+    });
   }
 
   render() {
     return (
-      <BoardEditor
+      <WallUploader
         holds={this.state.holds}
         handleClick={this.handleClick}
         saveBoard={this.saveBoard}
@@ -112,4 +136,4 @@ class BoardEditorContainer extends React.PureComponent {
   }
 }
 
-export default BoardEditorContainer;
+export default WallUploaderContainer;

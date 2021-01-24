@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MenuDrawer = ({ walls, open, close }) => {
+const MenuDrawer = ({ walls, open, close, setPage, changeWall }) => {
   const classes = useStyles();
 
   const toggleDrawer = () => (event) => {
@@ -34,13 +34,17 @@ const MenuDrawer = ({ walls, open, close }) => {
         >
           <List>
             <img src={logo} alt="home wall logo" />
-            {walls.map(({ name }) => (
-              <ListItem button key={name}>
-                <ListItemText primary={name} />
+            {walls.map((wall) => (
+              <ListItem
+                button
+                key={wall.name}
+                onClick={() => changeWall(wall) || setPage('wall') || close()}
+              >
+                <ListItemText primary={wall.name} />
               </ListItem>
             ))}
             <Divider />
-            <ListItem button>
+            <ListItem button onClick={() => setPage('create') || close()}>
               <ListItemText primary="Add wall" />
             </ListItem>
             <Divider />

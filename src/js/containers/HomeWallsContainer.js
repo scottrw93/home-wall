@@ -5,6 +5,7 @@ import {
   fetchProblems,
   createProblem,
   deleteProblem,
+  createWall,
 } from '../api/HomeWallApi';
 import HomeWalls from '../components/HomeWalls';
 
@@ -20,6 +21,7 @@ class HomeWallsContainer extends React.PureComponent {
 
     this.createProblem = this.createProblem.bind(this);
     this.deleteProblem = this.deleteProblem.bind(this);
+    this.createWall = this.createWall.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +34,14 @@ class HomeWallsContainer extends React.PureComponent {
         }),
       );
     });
+  }
+
+  createWall(wall) {
+    return createWall(wall).then((createdWall) =>
+      this.setState({
+        walls: [...this.state.walls, createdWall],
+      }),
+    );
   }
 
   createProblem(problem) {
@@ -58,6 +68,7 @@ class HomeWallsContainer extends React.PureComponent {
         {...this.props}
         createProblem={this.createProblem}
         deleteProblem={this.deleteProblem}
+        createWall={this.createWall}
         problems={this.state.problems}
         walls={this.state.walls}
         loading={this.state.loading}

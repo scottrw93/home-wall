@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = ({ wall: {name}, walls, onLoginChange }) => {
+const NavBar = ({ wall: { name }, walls, changeWall, onLoginChange, setPage }) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -55,7 +55,13 @@ const NavBar = ({ wall: {name}, walls, onLoginChange }) => {
         </Toolbar>
       </AppBar>
       <div className={classes.spacer} />
-      <MenuDrawer walls={walls} open={open} close={() => setOpen(false)} />
+      <MenuDrawer
+        walls={walls}
+        open={open}
+        changeWall={changeWall}
+        setPage={setPage}
+        close={() => setOpen(false)}
+      />
     </div>
   );
 };

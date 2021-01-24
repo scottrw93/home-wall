@@ -28,6 +28,22 @@ export const deleteProblem = (uuid) => {
   );
 };
 
+export const createProblem = (problem) => {
+  return fetch(`${HOMEWALL_API}/problems`, {
+    method: 'POST',
+    body: JSON.stringify(problem),
+  })
+    .then((res) => res.json())
+    .then(
+      (result) => {
+        return result;
+      },
+      (error) => {
+        console.error({ error });
+      },
+    );
+};
+
 export const fetchWalls = () => {
   return fetch(`${HOMEWALL_API}/walls`)
     .then((res) => res.json())
@@ -41,10 +57,10 @@ export const fetchWalls = () => {
     );
 };
 
-export const createProblem = (problem) => {
-  return fetch(`${HOMEWALL_API}/problems`, {
+export const createWall = (wall) => {
+  return fetch(`${HOMEWALL_API}/walls`, {
     method: 'POST',
-    body: JSON.stringify(problem),
+    body: JSON.stringify(wall),
   })
     .then((res) => res.json())
     .then(
