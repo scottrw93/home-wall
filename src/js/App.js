@@ -7,7 +7,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import blue from '@material-ui/core/colors/blue';
 import blueGrey from '@material-ui/core/colors/blueGrey';
-import { READ } from './auth/Scopes';
+import { defaultScopes } from './auth/Scopes';
 import { UserContext } from './context/UserContext';
 
 const theme = createMuiTheme({
@@ -20,7 +20,7 @@ const theme = createMuiTheme({
 const App = () => {
   const [login, onLoginSuccess] = React.useState({
     signedIn: false,
-    scopes: [READ],
+    scopes: defaultScopes(),
   });
 
   return (

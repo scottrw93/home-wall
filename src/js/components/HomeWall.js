@@ -25,7 +25,10 @@ const HomeWall = ({
       {page === 'problem' && (
         <ProblemView
           problem={problems.filter((p) => p.uuid === problem)[0]}
-          deleteProblem={deleteProblem}
+          deleteProblem={(problem) => {
+            deleteProblem(problem);
+            setPage('list');
+          }}
           cancel={() => setPage('list')}
         />
       )}

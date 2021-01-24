@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { IconButton, Typography } from '@material-ui/core';
 import { toFont } from '../../utils/Grades';
 import { UserContext } from '../../context/UserContext';
-import { DELETE, DELETE_OWN } from '../../auth/Scopes';
+import { canDeleteProblem } from '../../auth/Scopes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,14 +65,6 @@ const Header = ({ name, grade, author, cancel }) => {
   );
 };
 
-const canDelete = (user, author) => {
-  if (user.scopes.indexOf(DELETE) > -1) {
-    return true;
-  }
-
-  return user.scopes.indexOf(DELETE_OWN) > -1 && user.name === author;
-};
-
 const ProblemView = ({
   problem: { author, holds, uuid, name, grade },
   deleteProblem,
@@ -86,7 +78,7 @@ const ProblemView = ({
       <div>
         <Header name={name} grade={grade} author={author} cancel={cancel} />
         <Board holds={holds} />
-        {canDelete(user, author) && (
+        {canDeleteProblem(user, author) && (
           <Grid
             container
             alignItems="center"
@@ -94,13 +86,7 @@ const ProblemView = ({
             justify="flex-end"
             className={classes.actions}
           >
-            <DeleteIcon
-              aria-label="delete"
-              onClick={() => {
-                deleteProblem(uuid);
-                cancel();
-              }}
-            />
+            <DeleteIcon aria-label="delete" onClick={() => deleteProblem(uuid)} />
           </Grid>
         )}
       </div>

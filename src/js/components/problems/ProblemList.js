@@ -8,7 +8,7 @@ import Box from '@material-ui/core/Box';
 
 import { toFont } from '../../utils/Grades';
 import { UserContext } from '../../context/UserContext';
-import { CREATE } from '../../auth/Scopes';
+import { canCreateProblem } from '../../auth/Scopes';
 import AddProblemButton from '../buttons/AddProblemButton';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,16 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemList = ({
-  problems,
-  openProblem,
-  addProblem,
-  filters = {
-    name: null,
-    grade: null,
-    author: null,
-  },
-}) => {
+const ProblemList = ({ problems, openProblem, addProblem }) => {
   const classes = useStyles();
   const user = useContext(UserContext);
 
@@ -58,53 +49,33 @@ const ProblemList = ({
     return (
       <div className={classes.root}>
         <Typography variant="h5">No problems created yet</Typography>
-        {user.scopes.indexOf(CREATE) > -1 && (
-          <AddProblemButton onCreate={addProblem} />
-        )}
+        {canCreateProblem(user) && <AddProblemButton onCreate={addProblem} />}
       </div>
     );
   }
 
   return (
     <div className={classes.root}>
-      {problems
-        .filter(
-          ({ name }) =>
-            !filters.name ||
-            name.toLowerCase().indexOf(filters.name.toLowerCase()) > -1,
-        )
-        .filter(
-          ({ author }) =>
-            !filters.author ||
-            author.toLowerCase().indexOf(filters.author.toLowerCase()) > -1,
-        )
-        .filter(
-          ({ grade }) =>
-            !filters.grade ||
-            (grade <= filters.grade.lte && grade >= filters.grade.gte),
-        )
-        .map(({ uuid, holds, name, grade, author }) => (
-          <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
-            <div>
-              <Board holds={holds} />
-              <div className={classes.overlay}>
-                <div className={classes.description}>
-                  <Box display="flex" p={1}>
-                    <Box p={1} flexGrow={1}>
-                      <Typography variant="h5">{`${name} ${toFont(
-                        grade,
-                      )}`}</Typography>
-                      <Typography variant="body1">{`by: ${author}`}</Typography>
-                    </Box>
+      {problems.map(({ uuid, holds, name, grade, author }) => (
+        <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
+          <div>
+            <Board holds={holds} />
+            <div className={classes.overlay}>
+              <div className={classes.description}>
+                <Box display="flex" p={1}>
+                  <Box p={1} flexGrow={1}>
+                    <Typography variant="h5">{`${name} ${toFont(
+                      grade,
+                    )}`}</Typography>
+                    <Typography variant="body1">{`by: ${author}`}</Typography>
                   </Box>
-                </div>
+                </Box>
               </div>
             </div>
           </div>
-        ))}
-      {user.scopes.indexOf(CREATE) > -1 && (
-        <AddProblemButton onCreate={addProblem} />
-      )}
+        </div>
+      ))}
+      {canCreateProblem(user) && <AddProblemButton onCreate={addProblem} />}
     </div>
   );
 };

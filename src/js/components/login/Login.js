@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import { READ, CREATE, DELETE, DELETE_OWN } from '../../auth/Scopes';
+import { defaultScopes } from '../../auth/Scopes';
 import { UserContext } from '../../context/UserContext';
 
 import Alert from '@material-ui/lab/Alert';
@@ -61,7 +61,7 @@ const Login = ({ onLoginChange }) => {
         onLogoutSuccess={() =>
           onLoginChange({
             signedIn: false,
-            scopes: [READ],
+            scopes: defaultScopes(),
           })
         }
       ></GoogleLogout>
@@ -85,10 +85,7 @@ const Login = ({ onLoginChange }) => {
             name: profile.getName(),
             email: profile.getEmail(),
             image: profile.getImageUrl(),
-            scopes:
-              profile.getName() === 'Scott Williams'
-                ? [READ, CREATE, DELETE, DELETE_OWN]
-                : [READ, CREATE, DELETE_OWN],
+            scopes: defaultScopes(profile.getEmail()),
           });
         }}
         onFailure={() => showFailedLoginAlert(true)}
