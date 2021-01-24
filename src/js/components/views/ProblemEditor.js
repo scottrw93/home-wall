@@ -26,7 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
+const ProblemEditor = ({
+  selectedHolds,
+  wallUuid,
+  clickHold,
+  saveProblem,
+  cancel,
+}) => {
   const classes = useStyles();
 
   const [grade, setGrade] = React.useState(5);
@@ -72,7 +78,7 @@ const ProblemEditor = ({ selectedHolds, clickHold, saveProblem, cancel }) => {
               grade,
               author: user.name,
               holds: selectedHolds,
-              wallUuid: '813d0573-9640-4643-94d5-ecf3d512db4e',
+              wallUuid,
             })
           }
           disabled={disabled}

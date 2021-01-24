@@ -37,11 +37,12 @@ class HomeWallsContainer extends React.PureComponent {
   }
 
   createWall(wall) {
-    return createWall(wall).then((createdWall) =>
+    return createWall(wall).then((createdWall) => {
       this.setState({
         walls: [...this.state.walls, createdWall],
-      }),
-    );
+      });
+      return createdWall;
+    });
   }
 
   createProblem(problem) {

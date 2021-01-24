@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import ProblemEditorContainer from '../containers/ProblemEditorContainer';
@@ -9,11 +9,16 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const HomeWall = ({ problems, wall: { holds }, createProblem, deleteProblem }) => {
+const HomeWall = ({
+  problems,
+  wall: { holds, uuid: wallUuid },
+  createProblem,
+  deleteProblem,
+}) => {
   const classes = useStyles();
 
-  const [page, setPage] = React.useState('list');
-  const [problem, openProblem] = React.useState('');
+  const [page, setPage] = useState('list');
+  const [problem, openProblem] = useState(null);
 
   return (
     <div className={classes.root}>
@@ -26,15 +31,22 @@ const HomeWall = ({ problems, wall: { holds }, createProblem, deleteProblem }) =
       )}
       {page === 'create' && (
         <ProblemEditorContainer
+          wallUuid={wallUuid}
           holds={holds}
-          createProblem={(problem) => createProblem(problem) && setPage('list')}
+          createProblem={(problem) => {
+            createProblem(problem);
+            setPage('list');
+          }}
           cancel={() => setPage('list')}
         />
       )}
       {page === 'list' && (
         <ProblemList
           problems={problems}
-          openProblem={(problem) => openProblem(problem) || setPage('problem')}
+          openProblem={(problem) => {
+            openProblem(problem);
+            setPage('problem');
+          }}
           addProblem={() => setPage('create')}
         />
       )}
