@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../../logo.png';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -32,15 +33,13 @@ const MenuDrawer = ({ walls, open, close }) => {
           onKeyDown={toggleDrawer}
         >
           <List>
-          <ListItem button>
-              <ListItemText primary="Julia's wall" />
-            </ListItem>
+            <img src={logo}/>
             {walls.map(({ name }) => (
               <ListItem button key={name}>
                 <ListItemText primary={name} />
               </ListItem>
             ))}
-                   <Divider />
+            <Divider />
             <ListItem button>
               <ListItemText primary="Add wall" />
             </ListItem>

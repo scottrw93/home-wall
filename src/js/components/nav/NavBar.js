@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NavBar = ({ walls, onLoginChange }) => {
+const NavBar = ({ wall: {name}, walls, onLoginChange }) => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
 
   return (
     <div className={classes.root}>
-      <AppBar className={open && classes.narrow} position="fixed">
+      <AppBar className={open ? classes.narrow : null} position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -49,7 +49,7 @@ const NavBar = ({ walls, onLoginChange }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Home Wall
+            {name}
           </Typography>
           <Login onLoginChange={onLoginChange} />
         </Toolbar>

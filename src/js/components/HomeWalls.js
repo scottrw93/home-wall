@@ -48,13 +48,13 @@ const HomeWalls = ({
   onLoginChange,
 }) => {
   const classes = useStyles();
-  const wall = walls[0];
+  const wall = walls[0] || {};
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <main className={classes.content}>
-        <NavBar walls={walls} onLoginChange={onLoginChange} />
+        <NavBar wall={wall} walls={walls} onLoginChange={onLoginChange} />
         <Container maxWidth="sm">
           {loading ? (
             <Loading />
