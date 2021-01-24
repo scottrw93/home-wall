@@ -4,7 +4,7 @@ import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
 
@@ -61,6 +61,12 @@ const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
           Save wall
         </Button>
       </div>
+      <Typography>
+        Needs to be done on a computer. To add a hold to the wall, click multiple
+        times around the outline of a hold to create a polygon shape. Once you do
+        this, hit the 'return/enter' key. Do this for all holds. Ctrl-z undoes
+        creation of previous holds. The choose a name for your wall and save.
+      </Typography>
     </div>
   );
 };

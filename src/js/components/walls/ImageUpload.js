@@ -6,6 +6,8 @@ import blue from '@material-ui/core/colors/blue';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { uploadWallImage } from '../../api/HomeWallApi';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImageUploadCard = ({setImage}) => {
+const ImageUploadCard = ({ setImage }) => {
   const classes = useStyles();
 
   return (
@@ -35,8 +37,7 @@ const ImageUploadCard = ({setImage}) => {
         multiple
         type="file"
         onChange={(event) => {
-            //TODO: Upload file event.target.files[0]
-            setImage("https://storage.googleapis.com/home-wall-images/wall.jpg");
+          uploadWallImage(event.target.files[0]).then(({ src }) => setImage(src));
         }}
       />
       <label htmlFor="contained-button-file">

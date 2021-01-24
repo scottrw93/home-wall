@@ -72,3 +72,15 @@ export const createWall = (wall) => {
       },
     );
 };
+
+export const uploadWallImage = (file) => {
+  return fetch(`${HOMEWALL_API}/images`, {
+    method: 'POST',
+    body: file,
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => console.log({ error }));
+};
