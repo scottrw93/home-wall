@@ -9,12 +9,7 @@ const useStyles = makeStyles((theme) => ({
   root: {},
 }));
 
-const HomeWall = ({
-  problems,
-  wall,
-  createProblem,
-  deleteProblem,
-}) => {
+const HomeWall = ({ problems, wall, createProblem, deleteProblem }) => {
   const classes = useStyles();
 
   const [page, setPage] = useState('list');
@@ -24,7 +19,7 @@ const HomeWall = ({
     <div className={classes.root}>
       {page === 'problem' && (
         <ProblemView
-        wall={wall}
+          wall={wall}
           problem={problems.filter((p) => p.uuid === problem)[0]}
           deleteProblem={(problem) => {
             deleteProblem(problem);

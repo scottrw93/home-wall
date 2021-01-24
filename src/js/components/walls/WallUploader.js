@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
+import ImageUpload from './ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,12 +29,13 @@ const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
   const classes = useStyles();
 
   const [name, setName] = useState(null);
-  const [image, setImage] = useState('https://storage.googleapis.com/home-wall-images/wall.jpg');
+  const [image, setImage] = useState(null);
   const disabled = !name || holds.length < 10;
 
   return (
     <div className={classes.root}>
-      <Board src={image} onClick={handleClick} holds={holds} />
+      {image && <Board src={image} onClick={handleClick} holds={holds} />}
+      {!image && <ImageUpload setImage={setImage} />}
       <div>
         <TextField
           className={classes.formControl}
@@ -127,9 +129,10 @@ class WallUploaderContainer extends React.PureComponent {
   }
 
   render() {
+    const { holds } = this.state;
     return (
       <WallUploader
-        holds={this.state.holds}
+        holds={holds}
         handleClick={this.handleClick}
         saveBoard={this.saveBoard}
       />

@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProblemList = ({ wall: {holds, image}, problems, openProblem, addProblem }) => {
+const ProblemList = ({
+  wall: { holds, image },
+  problems,
+  openProblem,
+  addProblem,
+}) => {
   const classes = useStyles();
   const user = useContext(UserContext);
 

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProblemEditor = ({
   selectedHolds,
-  wall: {image, uuid: wallUuid},
+  wall: { image, uuid: wallUuid },
   clickHold,
   saveProblem,
   cancel,

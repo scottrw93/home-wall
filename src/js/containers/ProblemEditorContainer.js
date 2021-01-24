@@ -17,7 +17,9 @@ class ProblemEditorContainer extends React.PureComponent {
   }
 
   clickHold({ x, y }) {
-    const { wall: {holds}, } = this.props;
+    const {
+      wall: { holds },
+    } = this.props;
     const { selectedHolds } = this.state;
 
     holds.forEach((hold) => {

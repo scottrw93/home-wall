@@ -66,7 +66,7 @@ const Header = ({ name, grade, author, cancel }) => {
 };
 
 const ProblemView = ({
-  wall: {image},
+  wall: { image },
   problem: { author, holds, uuid, name, grade },
   deleteProblem,
   cancel,
