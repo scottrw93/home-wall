@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 
 import Fab from '@material-ui/core/Fab';
@@ -7,11 +7,10 @@ import blue from '@material-ui/core/colors/blue';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { uploadWallImage } from '../../api/HomeWallApi';
+import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -28,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 const ImageUploadCard = ({ setImage }) => {
   const classes = useStyles();
 
+  const [loading, setLoaing] = useState(false);
+
   return (
     <div className={classes.root}>
       <input
@@ -37,12 +38,16 @@ const ImageUploadCard = ({ setImage }) => {
         multiple
         type="file"
         onChange={(event) => {
-          uploadWallImage(event.target.files[0]).then(({ src }) => setImage(src));
+          setLoaing(true);
+          uploadWallImage(event.target.files[0]).then(({ src }) => {
+            setImage(src);
+            setLoaing(false);
+          });
         }}
       />
       <label htmlFor="contained-button-file">
         <Fab component="span" className={classes.button}>
-          <AddPhotoAlternateIcon />
+          {!loading ? <AddPhotoAlternateIcon /> : <CircularProgress />}
         </Fab>
       </label>
     </div>

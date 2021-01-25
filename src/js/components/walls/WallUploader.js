@@ -4,7 +4,7 @@ import Board from '../Board';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Button, Typography } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import ImageUpload from './ImageUpload';
 
@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  howTo: {
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
   },
 }));
 
@@ -34,39 +35,47 @@ const WallUploader = ({ holds = [], handleClick, saveBoard }) => {
 
   return (
     <div className={classes.root}>
-      {image && <Board src={image} onClick={handleClick} holds={holds} />}
-      {!image && <ImageUpload setImage={setImage} />}
-      <div>
-        <TextField
-          className={classes.formControl}
-          label="Wall Name"
-          variant="outlined"
-          onChange={({ target: { value } }) => setName(value)}
-        />
-      </div>
-      <div>
-        <Button
-          className={classes.formControl}
-          variant="contained"
-          color="primary"
-          disabled={disabled}
-          onClick={() =>
-            saveBoard({
-              name,
-              holds,
-              image,
-            })
-          }
-        >
-          Save wall
-        </Button>
-      </div>
-      <Typography>
-        Needs to be done on a computer. To add a hold to the wall, click multiple
-        times around the outline of a hold to create a polygon shape. Once you do
-        this, hit the 'return/enter' key. Do this for all holds. Ctrl-z undoes
-        creation of previous holds. The choose a name for your wall and save.
-      </Typography>
+      <Grid container direction="column" justify="flex-end" alignItems="center">
+        <Grid item>
+          {image && <Board src={image} onClick={handleClick} holds={holds} />}
+          {!image && <ImageUpload setImage={setImage} />}
+        </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item>
+            <TextField
+              className={classes.formControl}
+              label="Wall Name"
+              variant="outlined"
+              onChange={({ target: { value } }) => setName(value)}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              className={classes.formControl}
+              variant="contained"
+              color="primary"
+              disabled={disabled}
+              onClick={() =>
+                saveBoard({
+                  name,
+                  holds,
+                  image,
+                })
+              }
+            >
+              Save wall
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Typography className={classes.howTo}>
+            Needs to be done on a computer. To add a hold to the wall, click multiple
+            times around the outline of a hold to create a polygon shape. Once you do
+            this, hit the 'return/enter' key. Do this for all holds. Ctrl-z undoes
+            creation of previous holds. The choose a name for your wall and save.
+          </Typography>
+        </Grid>
+      </Grid>
     </div>
   );
 };
