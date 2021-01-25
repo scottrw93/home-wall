@@ -8,7 +8,9 @@ const SUPER_ADMIN = 'SUPER_ADMIN';
 
 export const defaultScopes = (email = null) => {
   if (email) {
-    return email === 'scott.rw93@gmail.com' || email === 'jules.nikolova@gmail.com'
+    return email === 'scott.rw93@gmail.com' ||
+      email === 'jules.nikolova@gmail.com' ||
+      email === 'dbw16d@gmail.com'
       ? [SUPER_ADMIN]
       : [CREATE_PROBLEM, DELETE_PROBLEM];
   }
