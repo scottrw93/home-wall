@@ -72,9 +72,9 @@ const ProblemList = ({
                     <Typography variant="h5">{`${name} ${toFont(
                       grade,
                     )}`}</Typography>
-                    <Typography variant="body1">{`by: ${author} at: ${new Date(
+                    <Typography variant="body1">{`by: ${author}, ${new Date(
                       createdAt,
-                    ).toLocaleString()}`}</Typography>
+                    ).toLocaleDateString()}`}</Typography>
                   </Box>
                 </Box>
               </div>
