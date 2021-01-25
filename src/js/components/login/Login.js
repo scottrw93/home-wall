@@ -77,6 +77,7 @@ const Login = ({ onLoginChange }) => {
       <GoogleLogin
         clientId={CLIENT_ID}
         buttonText="Login"
+        cookiePolicy="none"
         onSuccess={(response) => {
           //TODO: Server
           const profile = response.getBasicProfile();
