@@ -58,11 +58,6 @@ class Board extends React.PureComponent {
       let height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
       let width = Math.floor(WIDTH / SCALE);
 
-      if (height > 900) {
-        height = height / 1.5;
-        width = width / 1.5;
-      }
-
       ref.width = width * PIXEL_RATIO;
       ref.height = height * PIXEL_RATIO;
 
