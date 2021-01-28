@@ -16,7 +16,7 @@ const SCALE = window.matchMedia
     : 1
   : 1;
 
-const pointAt = (corrodinate, scale) => (corrodinate / scale) * PIXEL_RATIO;
+const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
 const drawHolds = (holds, context) => {
   holds.forEach(({ points }) => {
@@ -42,7 +42,6 @@ class Board extends React.PureComponent {
 
     this.state = {
       img: null,
-      scale: SCALE,
     };
   }
 
@@ -56,15 +55,8 @@ class Board extends React.PureComponent {
     img.src = src;
 
     img.onload = () => {
-      let scale = SCALE;
-      let height = Math.floor(img.height / (img.width / WIDTH) / scale);
-      let width = Math.floor(WIDTH / scale);
-
-      if (height > 900) {
-        scale = scale * 1.5;
-        height = height / scale;
-        width = width / scale;
-      }
+      const height = Math.floor(img.height / (img.width / WIDTH) / SCALE);
+      const width = Math.floor(WIDTH / SCALE);
 
       ref.width = width * PIXEL_RATIO;
       ref.height = height * PIXEL_RATIO;
@@ -80,7 +72,6 @@ class Board extends React.PureComponent {
 
       this.setState({
         img,
-        scale,
       });
     };
   }
@@ -106,14 +97,14 @@ class Board extends React.PureComponent {
 
   render() {
     const { src, onClick } = this.props;
-    const { img, scale } = this.state;
+    const { img } = this.state;
 
     return (
       <React.Fragment>
         <img
           alt="board"
           style={img ? { display: 'none' } : {}}
-          width={WIDTH / scale}
+          width={WIDTH / SCALE}
           height="auto"
           src={src}
         />
@@ -128,7 +119,7 @@ class Board extends React.PureComponent {
               const x = clientX - canvas.left;
               const y = clientY - canvas.top;
 
-              onClick({ x: x * scale, y: y * scale });
+              onClick({ x: x * SCALE, y: y * SCALE });
             }
           }}
         />
