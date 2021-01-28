@@ -64,7 +64,7 @@ const Login = ({ onLoginChange }) => {
             scopes: defaultScopes(),
           })
         }
-      ></GoogleLogout>
+      />
     );
   }
 
@@ -78,7 +78,6 @@ const Login = ({ onLoginChange }) => {
         clientId={CLIENT_ID}
         buttonText="Login"
         onSuccess={(response) => {
-          //TODO: Server
           const profile = response.getBasicProfile();
           onLoginChange({
             signedIn: true,
@@ -89,7 +88,6 @@ const Login = ({ onLoginChange }) => {
           });
         }}
         onFailure={() => showFailedLoginAlert(true)}
-        isSignedIn={true}
       />
     </React.Fragment>
   );
