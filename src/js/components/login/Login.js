@@ -88,6 +88,7 @@ const Login = ({ onLoginChange }) => {
           });
         }}
         onFailure={() => showFailedLoginAlert(true)}
+        isSignedIn={true}
       />
     </React.Fragment>
   );
