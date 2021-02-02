@@ -62,7 +62,7 @@ const ProblemList = ({
   return (
     <div className={classes.root}>
       {problems.map(({ uuid, holds, name, grade, author, createdAt }) => (
-        <div key={name} className={classes.card} onClick={() => openProblem(uuid)}>
+        <div key={uuid} className={classes.card} onClick={() => openProblem(uuid)}>
           <div>
             <Board src={image} holds={holds} />
             <div className={classes.overlay}>
