@@ -2,7 +2,7 @@ import React from 'react';
 import ProblemEditor from '../components/problems/ProblemEditor';
 
 import { inside } from '../utils/RayCasting';
-import { sameHold } from '../utils/Holds';
+import { containsHold, sameHold } from '../utils/Holds';
 
 class ProblemEditorContainer extends React.PureComponent {
   constructor(props) {
@@ -24,12 +24,24 @@ class ProblemEditorContainer extends React.PureComponent {
 
     holds.forEach((hold) => {
       if (inside({ x, y }, hold.points)) {
-        this.setState({
-          selectedHolds:
-            selectedHolds.indexOf(hold) === -1
-              ? [...selectedHolds, hold]
-              : selectedHolds.filter((toDelete) => !sameHold(toDelete, hold)),
-        });
+        const selectedHold = containsHold(selectedHolds, hold);
+        if (selectedHold) {
+          this.setState({
+            selectedHolds: selectedHold.tagged
+              ? selectedHolds.filter((toDelete) => !sameHold(toDelete, hold))
+              : [
+                  ...selectedHolds.filter((toDelete) => !sameHold(toDelete, hold)),
+                  {
+                    ...selectedHold,
+                    tagged: true,
+                  },
+                ],
+          });
+        } else {
+          this.setState({
+            selectedHolds: [...selectedHolds, hold],
+          });
+        }
       }
     });
   }

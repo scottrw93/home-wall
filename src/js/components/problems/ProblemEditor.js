@@ -43,7 +43,12 @@ const ProblemEditor = ({
 
   return (
     <div className={classes.root}>
-      <Board src={image} onClick={clickHold} holds={selectedHolds} />
+      <Board
+        key={JSON.stringify(selectedHolds)}
+        src={image}
+        onClick={clickHold}
+        holds={selectedHolds}
+      />
       <div>
         <TextField
           className={classes.formControl}

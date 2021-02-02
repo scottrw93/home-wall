@@ -13,6 +13,15 @@ export const sameHold = (a, b) => {
   return true;
 };
 
+export const containsHold = (set, hold) => {
+  for (let i = 0; i < set.length; i++) {
+    if (sameHold(set[i], hold)) {
+      return set[i];
+    }
+  }
+  return null;
+};
+
 export const containsHolds = (set, subSet) => {
   if (subSet.length > set.length) {
     return false;

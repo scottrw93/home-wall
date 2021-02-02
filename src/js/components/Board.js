@@ -16,10 +16,21 @@ const SCALE = window.matchMedia
     : 1
   : 1;
 
+const findDistance = (a, b) =>
+  Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+
+const pointToTag = (points) => {
+  const b = { x: WIDTH, y: WIDTH };
+
+  return points.reduce((prev, current) =>
+    findDistance(prev, b) < findDistance(current, b) ? prev : current,
+  );
+};
+
 const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
 const drawHolds = (holds, context) => {
-  holds.forEach(({ points }) => {
+  holds.forEach(({ points, tagged }) => {
     context.beginPath();
 
     const { x: x0, y: y0 } = points[0];
@@ -30,6 +41,15 @@ const drawHolds = (holds, context) => {
     context.lineTo(pointAt(x0), pointAt(y0));
 
     context.stroke();
+
+    if (tagged) {
+      const toTag = pointToTag(points);
+
+      context.moveTo(pointAt(toTag.x), pointAt(toTag.y));
+      context.lineTo(pointAt(toTag.x + 10), pointAt(toTag.y + 10));
+      context.stroke();
+    }
+
     context.closePath();
   });
 };
