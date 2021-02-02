@@ -65,7 +65,7 @@ class Board extends React.PureComponent {
       ref.style.height = `${height}px`;
 
       context.drawImage(img, 0, 0, ref.width, ref.height);
-      context.lineWidth = 1 * PIXEL_RATIO;
+      context.lineWidth = 1.5 * PIXEL_RATIO;
       context.strokeStyle = '#FFFFFF';
 
       drawHolds(holds, context);
