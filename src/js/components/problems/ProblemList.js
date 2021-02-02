@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProblemList = ({
-  wall: { holds, image },
+  wall: { image },
+  wall,
   problems,
   openProblem,
   addProblem,

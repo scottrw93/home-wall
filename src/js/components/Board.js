@@ -3,10 +3,16 @@ import React from 'react';
 import { containsHolds } from '../utils/Holds';
 
 const WIDTH = 600;
+
 const PIXEL_RATIO =
   window.matchMedia && window.matchMedia('screen and (max-width: 900px)').matches
     ? window.devicePixelRatio * 2
     : window.devicePixelRatio;
+
+const LINE_WIDTH =
+  window.matchMedia && window.matchMedia('screen and (max-width: 900px)').matches
+    ? window.devicePixelRatio * 3
+    : window.devicePixelRatio * 2;
 
 const SCALE = window.matchMedia
   ? window.matchMedia('screen and (max-width: 600px)').matches
@@ -31,26 +37,27 @@ const pointAt = (corrodinate) => (corrodinate / SCALE) * PIXEL_RATIO;
 
 const drawHolds = (holds, context) => {
   holds.forEach(({ points, tagged }) => {
-    context.beginPath();
-
     const { x: x0, y: y0 } = points[0];
 
+    context.beginPath();
     context.moveTo(pointAt(x0), pointAt(y0));
 
     points.forEach(({ x, y }) => context.lineTo(pointAt(x), pointAt(y)));
     context.lineTo(pointAt(x0), pointAt(y0));
 
+    context.closePath();
     context.stroke();
 
     if (tagged) {
       const toTag = pointToTag(points);
 
+      context.beginPath();
       context.moveTo(pointAt(toTag.x), pointAt(toTag.y));
       context.lineTo(pointAt(toTag.x + 10), pointAt(toTag.y + 10));
+
+      context.closePath();
       context.stroke();
     }
-
-    context.closePath();
   });
 };
 
@@ -85,7 +92,7 @@ class Board extends React.PureComponent {
       ref.style.height = `${height}px`;
 
       context.drawImage(img, 0, 0, ref.width, ref.height);
-      context.lineWidth = 1.5 * PIXEL_RATIO;
+      context.lineWidth = LINE_WIDTH;
       context.strokeStyle = '#FFFFFF';
 
       drawHolds(holds, context);
