@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProblemEditorContainer from '../containers/ProblemEditorContainer';
 import ProblemView from './problems/ProblemView';
 import ProblemList from './problems/ProblemList';
+import About from './walls/About';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -46,6 +47,7 @@ const HomeWall = ({ problems, wall, createProblem, deleteProblem }) => {
             openProblem(problem);
             setPage('problem');
           }}
+          
           addProblem={() => setPage('create')}
         />
       )}

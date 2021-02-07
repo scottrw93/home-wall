@@ -55,7 +55,7 @@ const MenuDrawer = ({ walls, open, close, setPage, changeWall }) => {
               </React.Fragment>
             )}
             <Divider />
-            <ListItem button>
+            <ListItem button onClick ={() => setPage ('about') || close()}>
               <ListItemText primary="About" />
             </ListItem>
           </List>
