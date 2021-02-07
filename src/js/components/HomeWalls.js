@@ -8,6 +8,7 @@ import { Container, CircularProgress } from '@material-ui/core';
 import NavBar from './nav/NavBar';
 import HomeWall from './HomeWall';
 import WallUploaderContainer from './walls/WallUploader';
+import About from './walls/About';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +90,9 @@ const HomeWalls = ({
                     })
                   }
                 />
+              )}
+              {page === 'about' && (
+                <About />
               )}
             </div>
           )}
